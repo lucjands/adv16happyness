@@ -36,6 +36,9 @@ converter2.fromString(world_happiness_indicators_2016, function(err,result){
         console.log(err.message);
     }
     
+    countries = countries.slice(14);
+    console.log(countries);
+    
     result.forEach(function(insteanses) {
         countries.forEach(function(useCountry) {
             if(useCountry == insteanses.Country) {
@@ -47,7 +50,7 @@ converter2.fromString(world_happiness_indicators_2016, function(err,result){
     console.log(dataSet);
     
     json2csv.json2csv(dataSet, function(err, csv) {
-        fs.writeFileSync("TimeHappynessData.csv", csv);
+        fs.writeFileSync("happynessData.csv", csv);
     })
     
     
