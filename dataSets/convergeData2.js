@@ -29,11 +29,18 @@ converter.fromString(happynessData, function(err, result) {
         if(err) {
             console.error(err);
         }
-
+        
+//        Germany (including  former GDR from 1991)
         result.forEach(function(object) {
             countryHappyDataSet.forEach(function(itteration) {
                 if(itteration.Country === object["GEO/ACL00"]) {
                     var currentObj = {};
+                    currentObj = object;
+                    currentObj["Happiness score"] = itteration["Happiness score"];
+                    convertedDataSet.push(currentObj);
+                }
+                if(itteration.Country === "Germany" && object["GEO/ACL00"] === "Germany (including  former GDR from 1991)") {
+                    var currentOBj = {};
                     currentObj = object;
                     currentObj["Happiness score"] = itteration["Happiness score"];
                     convertedDataSet.push(currentObj);
@@ -49,7 +56,7 @@ converter.fromString(happynessData, function(err, result) {
             }
             
                         
-            //fs.writeFileSync("convertedDataSet")
+            fs.writeFileSync("timeHappynessData.csv", csv);
             
         });//convert json2csv
     }); //converter2 timeUse
