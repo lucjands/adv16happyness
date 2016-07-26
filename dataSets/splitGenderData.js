@@ -40,7 +40,7 @@ converter.fromString(cleanTimeHappynessData, function(err, data) {
             console.error(err.message);
         }
         
-        fs.writeFileSync("maleTimeHappynessData.csv", maleCsv);
+        fs.writeFileSync("maleTimeHappynessDataset.csv", maleCsv);
     });
     
     json2csv.json2csv(femaleData, function(err, femaleCsv) {
@@ -48,7 +48,7 @@ converter.fromString(cleanTimeHappynessData, function(err, data) {
             console.error(err.message);
         }
         
-        fs.writeFileSync("femaleTimeHappynessData.csv", femaleCsv);
+        fs.writeFileSync("femaleTimeHappynessDataset.csv", femaleCsv);
     });
     
 });
