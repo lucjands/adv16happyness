@@ -1,0 +1,102 @@
+<html>
+    <head>
+        <script src="https://d3js.org/d3.v3.min.js"></script>
+    </head>
+    
+    <body>
+        <svg height="1000" width="1000"></svg>
+        <script>
+            d3.csv('TimeUse.csv', function(data){
+                
+                console.log(data)
+                
+                data.sort(function(a, b){
+                    return d3.descending(a.Sleep, b.Sleep)
+                })
+                
+                //text
+                d3.select('svg')
+                    .selectAll('text')
+                    .data(data)
+                    .enter()
+                    .append('text')
+                    .attr('font-family', 'MyriadPro-Regular')
+                    .attr('font-size', 10)
+                    .attr('text-anchor', 'end')
+                    .attr('x', 90)
+                    .attr('y', function(d, i){
+                        return i*15+20
+                })
+                    .text(function(d, i){
+                        var female = "Females"
+                        var male = "Males"
+                        
+                        d.SEX=d.SEX.replace('Females', '(F)')
+                        d.SEX=d.SEX.replace('Males', '(M)')
+                        
+                        return d.GEO.concat(' ', d.SEX)
+                })
+                
+                var min = d3.min(data, function(d, i){
+                    var timeString=d.Sleep;
+                    var splitted = timeString.split(':');
+                    var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]);   
+                    return timeMinutes
+                    
+                })
+                
+                var max = d3.max(data, function(d, i){
+                    var timeString=d.Sleep;
+                    var splitted = timeString.split(':');
+                    var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]);   
+                    return timeMinutes
+                    
+                })
+                
+                console.log(max)
+                
+                var scale = d3.scale.linear()
+                    .domain([min-5, max+5])
+                    .range([0, 500])
+                
+                //bars
+                d3.select('svg')
+                    .selectAll('rect')
+                    .data(data)
+                    .enter()
+                    .append('rect')
+                    .attr('height', function(d, i){
+                        var timeString=d.Sleep;
+                        var splitted = timeString.split(':');
+                        var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]);   
+                        
+                    //return scale(timeMinutes)
+                    return timeMinutes;
+                })
+                
+                
+                    .attr('width', 20)
+                    
+                    .attr('y', function(d, i){
+                        var timeString=d.Sleep;
+                        var splitted = timeString.split(':');
+                        var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]); 
+                    
+                        var myOffset = max - timeMinutes
+                        console.log(myOffset)
+                        return myOffset
+                        
+                        
+                })
+                        
+                
+                
+                    .attr('x', function(d, i){
+                        return i*25+20
+                })
+                    .style('fill', 'steelblue')
+                
+            })
+        </script>
+    </body>
+</html>
