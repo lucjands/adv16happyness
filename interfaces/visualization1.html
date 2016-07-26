@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="stle.css"></head>
+        <script src="https://d3js.org/d3.v3.min.js"></script>
+
+    </head>
+    <body>
+        <svg></svg>
+
+        <script>
+            d3.csv('./datasets/TimeHappynessData.csv', function(data) {
+                d3.select('svg')
+                        .selectAll('rect')
+                        .data(data)
+                        .enter()
+                        .append('rect')
+                        .attr('width', function (d, i) {
+                            return d['Happiness score']
+                        })
+                        .attr('height', 3)
+                        .attr('y', function (d, i) {
+                            return i * 4
+                        })
+                        .transition()
+                        .delay(function (d, i) {
+                            return i * 100
+                        })
+                        .ease('linear')
+                        .style('fill', 'red')
+            });
+
+        </script>
+
+
+    </body>
+</html>

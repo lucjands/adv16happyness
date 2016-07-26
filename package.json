@@ -14,6 +14,7 @@
   "scripts": {
     "normalizeData": "node normalizeData",
     "semistandard": "semistandard",
-    "watch:semistandard": "watch 'semistandard' ."
+    "watch:semistandard": "watch 'semistandard' .",
+    "serve": "lr-http-server -p 8888 -d ./interfaces -l 30000 -w **/*.css,*.html,*.csv"
   }
 }
