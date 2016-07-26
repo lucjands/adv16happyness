@@ -49,3 +49,12 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+<<<<<<< HEAD
+=======
+
+# Marco's IDE
+/.idea
+
+#node_modules
+/node_modules
+>>>>>>> 9d19ce88a0cf3c2646895720aedc91d32952ed12
