@@ -1,4 +1,4 @@
-var fs =require("fs");
+var fs = require("fs");
 var Converter = require("csvtojson").Converter;
 var prettyjson= require("prettyjson");
 var _ = require("lodash");
