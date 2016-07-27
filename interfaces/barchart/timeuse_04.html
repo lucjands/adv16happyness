@@ -1,6 +1,6 @@
 <html>
     <head>
-        <script src="https://d3js.org/d3.v3.min.js"></script>
+        <script src="https://d3js.org/d3.v3.js"></script>
     </head>
         
     <body>
@@ -12,37 +12,29 @@
                 
                 //var happiness=['Happiness score']*1000
                 //console.log(happiness)
+                happyArray = [];
+                codesArray = [];
+                data.forEach(function(a) {
+                    happyArray.push(parseFloat(a['Happiness score']));
+                    codesArray.push(a.CodeExt);
+                });
 
-                data.sort(function(a, b){
-                    return d3.descending(a['Happiness score'], b['Happiness score'])
-                })
-
-                console.log(data)
+                happyArray.sort().reverse();
                 
-                var min = d3.min(data, function(d, i){
-                    //var timeString=d.['Happiness score'];
-                    //var splitted = timeString.split(':');
-                    //var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]);   
-                    return d
-                    
-                })
+                var min = d3.min(happyArray);
                 
-                var max = d3.max(data, function(d, i){
-                    //var timeString=d.['Happiness score'];
-                    //var splitted = timeString.split(':');
-                    //var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]);   
-                    return d
-                    
-                })
+                var max = d3.max(happyArray);
                 
                 var scale = d3.scale.linear()
-                    .domain([min-5, max+5])
-                    .range([0, 500])
+                    .domain([min, max])
+                    .range([0, 500]);
+
+                // console.log(min, max, scale(happyArray[3]));
                 
                 //bars
                 d3.select('svg')
                     .selectAll('rect')
-                    .data(data)
+                    .data(happyArray)
                     .enter()
                     .append('rect')
                     .attr('height', function(d, i){
@@ -61,9 +53,9 @@
                         //var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]); 
                     
                         //var myOffset = max - scale(timeMinutes)
-                        var myOffset = max - scale(d)
-                        console.log(myOffset)
-                        return myOffset
+                        var myOffset = scale(max) - scale(d);
+                        // console.log(myOffset);
+                        return myOffset;
                 })
                     .attr('x', function(d, i){
                         return i*25+20
