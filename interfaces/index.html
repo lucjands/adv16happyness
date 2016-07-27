@@ -212,7 +212,7 @@
             $('#rotate2').rotaterator({fadeSpeed:500, pauseSpeed:8000});
             $('#rotate3').rotaterator({fadeSpeed:500, pauseSpeed:10000});
             $('#rotate4').rotaterator({fadeSpeed:500, pauseSpeed:6000});
-            
+
         });
     </script>
 
@@ -656,9 +656,13 @@
 
     </script>
 
+    <script src="vendor/d3-promise/es6-promise.js"></script>
+    <script src="vendor/d3-promise/d3.promise.js"></script>
+    <script src="functions/sortingDataset.js"></script>
+
     <script>
-        
-        
+
+
         function timeToMinutes(time){
             return moment.duration(time).asMinutes();
         }
@@ -666,7 +670,7 @@
         function minutesToTime(minutes){
             return numeral(minutes).format('hh:mm');
         }
-        
+
         d3.selectAll('#maleButton').on('click', function(data) {
             console.log('male');
             window._selectedGender="male";
@@ -687,12 +691,17 @@
             });
         });
 
+        Happiness.init(window._selectedGender);
+        var promisedland = Happiness.load().then(function() {
+
+          console.log(Happiness.getActivityData());
+          
+        });
 
     </script>
 
-        
-        
-    <script src="functions/sortingDataset.js"></script>
+
+
 </body>
 
 </html>
