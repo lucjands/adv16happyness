@@ -70,7 +70,20 @@
                 })
                     .text(function(d, i){
                         return d['CodeExt']
+                })
+
+//happinessbar
+                d3.select('svg')
+                    .append('rect')
+                    .attr('height', 2)
+                    .attr('width', function(d, i){
+                        return data.length*25
                 })                    
+                    .style('fill', 'orange')
+                    .attr('x', 18)
+                    .attr('y', scale(max)/2)
+
+
             })
         </script>
     </body>
