@@ -651,23 +651,22 @@
 
 
 
-            function timeToMinutes(time){
-                return moment.duration(time).asMinutes();
-            }
-
-            function minutesToTime(minutes){
-                return numeral(minutes).format('hh:mm');
-            }
-
-
-
-
         }
 
 
     </script>
 
     <script>
+        
+        
+        function timeToMinutes(time){
+            return moment.duration(time).asMinutes();
+        }
+
+        function minutesToTime(minutes){
+            return numeral(minutes).format('hh:mm');
+        }
+        
         d3.selectAll('#maleButton').on('click', function(data) {
             console.log('male');
             window._selectedGender="male";
@@ -698,16 +697,16 @@
         var activityNr;
         var actArr = [];
         var activityValues = [];
-        var gender;
+        var gender = window.selectedGender;
         var maxActArr = [];
         var minActArr = [];
 
         var datasetFile;
 
         if(gender === "male") {
-            datasetFile = "../datasets/maleTimeHappynessDataset.csv";
+            datasetFile = "/datasets/maleTimeHappynessDataset.csv";
         } else {
-            datasetFile = "../datasets/femaleTimeHappynessDataset.csv";
+            datasetFile = "/datasets/femaleTimeHappynessDataset.csv";
         }
         d3.csv(datasetFile, function (data) {
                dataSet = data;
@@ -717,7 +716,7 @@
                 return Object.keys(data[0]).slice(5);
             }
 
-            actArr = getActivitiesArray(dataSet);
+            actArr = getActivitiesArray(data);
 
             actArr.forEach(function(value) {
                 activityValues.push(0);
@@ -728,34 +727,53 @@
             activityNr = 0;
 
             //maxActArr minActAtt junior
-            actArr.forEach(function(prop) {
-                var obj = {};
-                obj[prop] = 0;
-                maxActArr.push(obj);
+            
+            function createMaxMinArr(initMaxMinArr) {
+                actArr.forEach(function(prop) {
+                    var obj = {};
+                    obj[prop] = 0;
+                    maxActArr.push(obj);
 
-                var objMin = {};
-                objMin[prop] = 0;
-                minActArr.push(objMin);
-            })
-
-            console.log("maxActArr");
-            console.log(maxActArr);
-            console.log(maxActArr[0]);
-            console.log("minActArr");
-            console.log(minActArr[4]);
-
-            console.log("test");
-
-            for(var i = 0; i<actArr.length; i++) {
-                data.forEach(function(instance) {
-                    //maxActArr
-                    if(instance[actArr[i]] > maxActArr[actArr[i]]) {
-                        maxActArr[actArr[i]] = instance[actArr[i]];
-
-                        console.log(maxActArr[actArr[i]]);
-                    }
+                    var objMin = {};
+                    objMin[prop] = "24:00";
+                    minActArr.push(objMin);
                 })
+                
+                initMaxMinArr();
             }
+            
+            var initMaxMinArr = function () {
+                for(var i = 0; i<actArr.length; i++) {
+                    dataSet.forEach(function(instance) {
+                        //maxActArr
+                        var instanceMinutes = timeToMinutes(instance[actArr[i]]);
+                        var maxActArrMinutes = timeToMinutes(maxActArr[actArr[i]]);
+                        var minActArrMinutes = timeToMinutes(minActArr[actArr[i]]);
+                        if(instanceMinutes > maxActArrMinutes) {
+
+                            maxActArr[actArr[i]] = instance[actArr[i]];
+
+                        }
+                        if(instanceMinutes < minActArrMinutes) {
+
+                            minActArr[actArr[i]] = instance[actArr[i]];
+
+                        }
+                    })
+                }
+                
+                maxActArr.forEach(function(maxObjects) {
+                            console.log(maxObjects);
+                });
+
+            }
+            
+            createMaxMinArr(initMaxMinArr);
+            
+            
+            
+            
+            
         //    actArr.forEach(function(prop) {
         //       data.forEach(function(instance) {
         //           if(instance[prop] > )
