@@ -18,8 +18,8 @@ converter.fromString(cleanTimeHappynessData, function(err, data) {
     var maleData = [];
     data.forEach(function(instance) {
         console.log(instance);
-        if(instance["GEO/ACL00"] === "Germany (including  former GDR from 1991)") {
-            instance["GEO/ACL00"] = "Germany";
+        if(instance["GEO"] === "Germany (including  former GDR from 1991)") {
+            instance["GEO"] = "Germany";
            }
         if(instance.SEX === "Males") {
 

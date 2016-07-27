@@ -5,7 +5,7 @@ var json2csv = require('json-2-csv');
 var prettyjson= require("prettyjson");
 
 var happynessData = fs.readFileSync("happynessData.csv", "utf8");
-var timeUse = fs.readFileSync("TimeUse.csv", "utf8");
+var timeUse = fs.readFileSync("newTimeUse.csv", "utf8");
 
 var countryHappyDataSet = [];
 var convertedDataSet = [];
@@ -35,14 +35,14 @@ converter.fromString(happynessData, function(err, result) {
 //        Germany (including  former GDR from 1991)
         result.forEach(function(object) {
             countryHappyDataSet.forEach(function(itteration) {
-                if(itteration.Country === object["GEO/ACL00"]) {
+                if(itteration.Country === object["GEO"]) {
                     var currentObj = {};
                     currentObj = object;
                     currentObj["Happiness score"] = itteration["Happiness score"];
 //                    console.log(prettyjson.render(currentObj));
                     convertedDataSet.push(currentObj);
                 }
-                if(itteration.Country === "Germany" && object["GEO/ACL00"] === "Germany (including  former GDR from 1991)") {
+                if(itteration.Country === "Germany" && object["GEO"] === "Germany (including  former GDR from 1991)") {
                     var currentOBj = {};
                     currentObj = object;
                     currentObj["Happiness score"] = itteration["Happiness score"];
@@ -51,14 +51,17 @@ converter.fromString(happynessData, function(err, result) {
                 }
             });
         });
-        console.log(prettyjson.render(convertedDataSet));
+//        console.log(prettyjson.render(convertedDataSet));
         //console.log("length: " + convertedDataSet.length);
+        
+        
         
         json2csv.json2csv(convertedDataSet, function(err, csv) {
             if(err) {
                 console.error(err.message);
             }
             
+            console.log(csv);
                         
             fs.writeFileSync("timeHappynessData.csv", csv);
             
