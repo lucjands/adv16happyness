@@ -3,7 +3,7 @@
         <script src="https://d3js.org/d3.v3.min.js"></script>
         <style>
             text {'fill', 'white'}
-            text.shadow {stroke: black; stroke-width: 2.5px; opacity: 0.3;}
+            /*text.shadow {stroke: black; stroke-width: 2.5px; opacity: 0.3;}*/
         </style>
     </head>
         
@@ -95,7 +95,7 @@
                         
                         //if special chars use the notation below
                         //return d['GEO/ACL00'].concat(' ', d.SEX)
-                        return d.GEO.concat(' ', d.SEX)
+                        return d['GEO/ACL00'].concat(' ', d.SEX)
                 })
                 
                 //add black for shadow
