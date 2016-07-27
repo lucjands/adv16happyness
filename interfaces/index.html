@@ -659,6 +659,7 @@
     <script src="vendor/d3-promise/es6-promise.js"></script>
     <script src="vendor/d3-promise/d3.promise.js"></script>
     <script src="functions/sortingDataset.js"></script>
+    <script src="functions/userData.js"></script>
 
     <script>
 
@@ -692,10 +693,14 @@
         });
 
         Happiness.init(window._selectedGender);
-        var promisedland = Happiness.load().then(function() {
+        var promisesLand = Happiness.load().then(function() {
 
           console.log(Happiness.getActivityData());
-          
+          console.log("test");
+          userData.init(Happiness.activityFields, Happiness.activityData);
+          console.log(userData.getActivityValue(Happiness.activityFields[4]));
+          console.log(Happiness.activityFields[6]);
+          // console.log()
         });
 
     </script>

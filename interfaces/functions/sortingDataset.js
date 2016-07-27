@@ -17,6 +17,7 @@
   Happiness.init = function(gender) {
     Happiness.activityData = null;
     Happiness.setGender(gender);
+    Happiness.activityFields = ['Personal care','Sleep','Eating','Other personal care','Employment','Commuting','Employment Activities','Study','At school and university','Homework','Household and family care','Food management','Dish washing','House cleaning','Household upkeep','Laundry','Ironing','Textile care','Gardening','Caring for pets','Construction and repairs','Errands','Childcare','Instructional childcare','Household member care','Leisure and social life','Organizing','Neighbor care','Participatory activities','Visiting and feasts','Other social life','Entertainment and culture','Resting','Walking and hiking','Sports and outdoor activities','Computing','Hobbies and games','Reading books','Other reading','TV and video','Radio and music','Unspecified leisure','Travel unrelated to work','Travel to and from work','Travel related to study','Transporting children','Unspecified time use'];
   };
 
   Happiness.load = function() {
@@ -24,7 +25,6 @@
           "datasets/maleTimeHappynessDataset.csv" :
           "datasets/femaleTimeHappynessDataset.csv";
 
-    var activityFields = ['Personal care','Sleep','Eating','Other personal care','Employment','Commuting','Employment Activities','Study','At school and university','Homework','Household and family care','Food management','Dish washing','House cleaning','Household upkeep','Laundry','Ironing','Textile care','Gardening','Caring for pets','Construction and repairs','Errands','Childcare','Instructional childcare','Household member care','Leisure and social life','Organizing','Neighbor care','Participatory activities','Visiting and feasts','Other social life','Entertainment and culture','Resting','Walking and hiking','Sports and outdoor activities','Computing','Hobbies and games','Reading books','Other reading','TV and video','Radio and music','Unspecified leisure','Travel unrelated to work','Travel to and from work','Travel related to study','Transporting children','Unspecified time use'];
 
     return d3.promise.csv(datasetFile).then(function(data) {
       Happiness.dataSet = data;
@@ -32,7 +32,7 @@
 
       var dataActivity = {};
       // Initialise a pivot table
-      activityFields.forEach(function(fldname) {
+      Happiness.activityFields.forEach(function(fldname) {
         dataActivity[fldname] = {
           data: [],
           min: null,
@@ -43,7 +43,7 @@
       // Pivot
       data.forEach(function(row) {
         var countryName = row.GEO;
-        activityFields.forEach(function(fldname) {
+        Happiness.activityFields.forEach(function(fldname) {
           dataActivity[fldname].data.push({
             country: countryName,
             minutes: timeToMinutes(row[fldname])
@@ -52,7 +52,7 @@
       });
 
       // Sort each column
-      activityFields.forEach(function(fldname) {
+      Happiness.activityFields.forEach(function(fldname) {
         dataActivity[fldname].data.sort(function(a, b) {
           return a.minutes > b.minutes;
         });

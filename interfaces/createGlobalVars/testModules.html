@@ -70,8 +70,7 @@ d3.csv(datasetFile, function (data) {
     for(var i = 0; i<actArr.length; i++) {
         data.forEach(function(instance) {
             //maxActArr
-            console.log(instance[actArr[i]]);
-            if(instance[actArr[i]] < maxActArr[actArr[i]]) {
+            if(instance[actArr[i]] > maxActArr[actArr[i]]) {
                 maxActArr[actArr[i]] = instance[actArr[i]];
                 
                 console.log(maxActArr[actArr[i]]);
