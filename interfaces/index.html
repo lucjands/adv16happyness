@@ -78,7 +78,7 @@
                 <div class="col-lg-12">
                     <div class="container text-center">
                     <h2>
-                        Do you know that
+                        What if
                         <span id="rotate1" class="handwrite"> <span>sleeping</span> <span>reading books</span> <span>cleaning dwelling</span> <span>participating to parties</span> <span>doing gardening</span> <span>listening to the radio</span> <span>ironing</span> <span>visiting your friends</span> <span>walking the dog</span> <span>travelling</span> <span>washing your dishes</span> </span>
                         <span id="rotate2" class="handwrite"> <span>1</span> <span>12</span> <span>8</span> <span>35</span> <span>3</span> <span>19</span> <span>22</span> <span>3</span> </span>
                         <span id="rotate3" class="handwrite"> <span>hours</span> <span>seconds</span> <span>minutes</span> <span>milliseconds</span></span>
@@ -88,7 +88,7 @@
                     </h2>
                     <br>
                     <br>
-                    <a class="btn btn-danger btn-lg page-scroll" href="#about">Let me know how! <i class="fa fa-heart" aria-hidden="true"></i></a>
+                    <a class="btn btn-danger btn-lg page-scroll" href="#about" style="padding: 28px 38px;">Let me know how! <i class="fa fa-heart" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
@@ -96,11 +96,19 @@
 
     <!-- Gender Section -->
     <section id="about" class="about-section">
-        <div class="container">
+        <div class="container text-center">
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Are you a...</h1>
                 </div>
+            </div>
+            <div class="row">
+                <a class="btn text-danger" id="femaleButton">
+                    <i class="fa fa-venus" aria-hidden="true"></i>
+                </a>
+                <a class="btn text-danger" id="maleButton">
+                    <i class="fa fa-mars" aria-hidden="true"></i>
+                </a>
             </div>
         </div>
     </section>
@@ -110,7 +118,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Select your country</h1>
+                    <h1>Select your Country</h1>
+                    <div id="map" style="position: relative; width: 100%; height: 800px;"></div>
                 </div>
             </div>
         </div>
@@ -124,6 +133,25 @@
                     <h1>Play with your time</h1>
                 </div>
             </div>
+
+
+            <!-- sun graph -->
+            <div class="row">
+                <div id="main">
+                    <div id="sequence"></div>
+                    <div id="chart">
+                        <div id="explanation" style="visibility: hidden;">
+                            <span id="percentage"></span><br/>
+                        </div>
+                    </div>
+                </div>
+                <div id="sidebar">
+                    <input type="checkbox" id="togglelegend"> Legend<br/>
+                    <div id="legend" style="visibility: hidden;"></div>
+                </div>
+            </div>
+
+
         </div>
     </section>
 
@@ -137,6 +165,12 @@
     <!-- Scrolling Nav JavaScript -->
     <script src="vendor/scrolling-nav/jquery.easing.min.js"></script>
     <script src="vendor/scrolling-nav/scrolling-nav.js"></script>
+
+
+    <script src="vendor/lodash/lodash.js"></script>
+    <script src="vendor/moment/moment-with-locales.js"></script>
+    <script src="vendor/numeral/numeral.min.js"></script>
+
 
     <script>
         (function($){
@@ -180,6 +214,481 @@
             $('#rotate4').rotaterator({fadeSpeed:500, pauseSpeed:6000});
             
         });
+    </script>
+
+
+    <!-- datamaps -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+    <script src="vendor/datamaps/datamaps.world.min.js"></script>
+    <script>
+        var _map = new Datamap({
+            element: document.getElementById("map"),
+            scope: 'world',
+            // Zoom in on Africa
+            setProjection: function(element) {
+                var projection = d3.geo.equirectangular()
+                        .center([15, 53])
+                        .rotate([4.4, 0])
+                        .scale(1200)
+                        .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
+                var path = d3.geo.path()
+                        .projection(projection);
+
+                return {path: path, projection: projection};
+            },
+            fills: {
+                defaultFill: "#EEE",
+                'red': '#A94442'
+            },
+            data: {
+                'BEL': { fillKey: 'red' },
+                'BGR': { fillKey: 'red' },
+                'DEU': { fillKey: 'red' },
+                'EST': { fillKey: 'red' },
+                'ESP': { fillKey: 'red' },
+                'FRA': { fillKey: 'red' },
+                'ITA': { fillKey: 'red' },
+                'LVA': { fillKey: 'red' },
+                'LTU': { fillKey: 'red' },
+                'POL': { fillKey: 'red' },
+                'SVN': { fillKey: 'red' },
+                'FIN': { fillKey: 'red' },
+                'GBR': { fillKey: 'red' },
+                'NOR': { fillKey: 'red' }
+            }
+        });
+
+        d3.selectAll('.datamaps-subunit[data-info]').on('click', function(data) {
+            console.log(data);
+            window._selectedCountry=data;
+            $(function() {
+                    $('html, body').stop().animate({
+                        scrollTop: $('#contact').offset().top
+                    }, 1500, 'easeInOutExpo');
+            });
+
+            drawSun();
+        });
+
+        d3.selectAll('.datamaps-subunit:not([data-info])').on('click', function(data) {
+            alert("Sorry, data not available, please try again :)")
+        });
+
+
+
+        function drawSun(){
+
+
+            // Dimensions of sunburst.
+            var width = 750;
+            var height = 600;
+            var radius = Math.min(width, height) / 2;
+
+            // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
+            var b = {
+                w: 350, h: 30, s: 3, t: 10
+            };
+
+            // Mapping of step names to colors.
+            var colors = {
+                "Personal care": "#5687d1",
+                "Employment": "#7b615c",
+                "Study": "#de783b",
+                "Household and family care": "#6ab975",
+                "Leisure and social life": "#a173d1"
+            };
+
+            // Total size of all segments; we set this later, after loading the data.
+            var totalSize = 0;
+
+            var vis = d3.select("#chart").append("svg:svg")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .append("svg:g")
+                    .attr("id", "container")
+                    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+            var partition = d3.layout.partition()
+                    .size([2 * Math.PI, radius * radius])
+                    .value(function(d) { return d.size; });
+
+            var arc = d3.svg.arc()
+                    .startAngle(function(d) { return d.x; })
+                    .endAngle(function(d) { return d.x + d.dx; })
+                    .innerRadius(function(d) { return Math.sqrt(d.y); })
+                    .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
+
+            // Use d3.text and d3.csv.parseRows so that we do not need to have a header
+            // row, and can receive the csv as an array of arrays.
+
+
+            var _dataset="";
+
+            if(window._selectedGender === "male"){
+                _dataset="datasets/maleTimeHappynessDataset.csv"
+            } else {
+                _dataset="datasets/femaleTimeHappynessDataset.csv"
+            }
+
+            d3.csv(_dataset, function(data) {
+                var csv = data;
+                var json = buildHierarchy(csv);
+                createVisualization(json);
+            });
+
+
+            // Main function to draw and set up the visualization, once we have the data.
+            function createVisualization(json) {
+
+
+
+
+                // Basic setup of page elements.
+                initializeBreadcrumbTrail();
+                drawLegend();
+                d3.select("#togglelegend").on("click", toggleLegend);
+
+                // Bounding circle underneath the sunburst, to make it easier to detect
+                // when the mouse leaves the parent g.
+                vis.append("svg:circle")
+                        .attr("r", radius)
+                        .style("opacity", 0);
+
+                // For efficiency, filter nodes to keep only those large enough to see.
+                var nodes = partition.nodes(json)
+                        .filter(function(d) {
+                            return (d.dx > 0.005); // 0.005 radians = 0.29 degrees
+                        });
+
+                var path = vis.data([json]).selectAll("path")
+                        .data(nodes)
+                        .enter().append("svg:path")
+                        .attr("display", function(d) { return d.depth ? null : "none"; })
+                        .attr("d", arc)
+                        .attr("fill-rule", "evenodd")
+                        .style("fill", function(d) {
+                            console.log(d)
+                            if(colors[d.name]!=undefined){
+                                return colors[d.name]
+                            } else if (d.parent!=undefined && colors[d.parent.name]!=undefined){
+                                return colors[d.parent.name];
+                            } else {
+                                return;
+                            }
+                        })
+                        .style("opacity", 1)
+                        .on("mouseover", mouseover);
+
+                // Add the mouseleave handler to the bounding circle.
+                d3.select("#container").on("mouseleave", mouseleave);
+
+                // Get total size of the tree = value of root node from partition.
+                totalSize = path.node().__data__.value;
+            };
+
+            // Fade all but the current sequence, and show it in the breadcrumb trail.
+            function mouseover(d) {
+                var percentage = (100 * d.value / totalSize).toPrecision(3);
+                var percentageString = minutesToTime(d.value) + " [" + percentage + "%" + "]";
+                if (percentage < 0.1) {
+                    percentageString = minutesToTime(d.value) + " [" + "< 0.1%" + "]";
+                }
+
+                d3.select("#percentage")
+                        .text(percentageString);
+
+                d3.select("#explanation")
+                        .style("visibility", "");
+
+                var sequenceArray = getAncestors(d);
+                updateBreadcrumbs(sequenceArray, percentageString);
+
+                // Fade all the segments.
+                d3.selectAll("path")
+                        .style("opacity", 0.3);
+
+                // Then highlight only those that are an ancestor of the current segment.
+                vis.selectAll("path")
+                        .filter(function(node) {
+                            return (sequenceArray.indexOf(node) >= 0);
+                        })
+                        .style("opacity", 1);
+            }
+
+            // Restore everything to full opacity when moving off the visualization.
+            function mouseleave(d) {
+
+                // Hide the breadcrumb trail
+                d3.select("#trail")
+                        .style("visibility", "hidden");
+
+                // Deactivate all segments during transition.
+                d3.selectAll("path").on("mouseover", null);
+
+                // Transition each segment to full opacity and then reactivate it.
+                d3.selectAll("path")
+                        .transition()
+                        .duration(1000)
+                        .style("opacity", 1)
+                        .each("end", function() {
+                            d3.select(this).on("mouseover", mouseover);
+                        });
+
+                d3.select("#explanation")
+                        .style("visibility", "hidden");
+            }
+
+            // Given a node in a partition layout, return an array of all of its ancestor
+            // nodes, highest first, but excluding the root.
+            function getAncestors(node) {
+                var path = [];
+                var current = node;
+                while (current.parent) {
+                    path.unshift(current);
+                    current = current.parent;
+                }
+                return path;
+            }
+
+            function initializeBreadcrumbTrail() {
+                // Add the svg area.
+                var trail = d3.select("#sequence").append("svg:svg")
+                        .attr("width", width)
+                        .attr("height", 50)
+                        .attr("id", "trail");
+                // Add the label at the end, for the percentage.
+                trail.append("svg:text")
+                        .attr("id", "endlabel")
+                        .style("fill", "#000");
+            }
+
+            // Generate a string that describes the points of a breadcrumb polygon.
+            function breadcrumbPoints(d, i) {
+                var points = [];
+                points.push("0,0");
+                points.push(b.w + ",0");
+                points.push(b.w + b.t + "," + (b.h / 2));
+                points.push(b.w + "," + b.h);
+                points.push("0," + b.h);
+                if (i > 0) { // Leftmost breadcrumb; don't include 6th vertex.
+                    points.push(b.t + "," + (b.h / 2));
+                }
+                return points.join(" ");
+            }
+
+            // Update the breadcrumb trail to show the current sequence and percentage.
+            function updateBreadcrumbs(nodeArray, percentageString) {
+
+                // Data join; key function combines name and depth (= position in sequence).
+                var g = d3.select("#trail")
+                        .selectAll("g")
+                        .data(nodeArray, function(d) { return d.name + d.depth; });
+
+                // Add breadcrumb and label for entering nodes.
+                var entering = g.enter().append("svg:g");
+
+                entering.append("svg:polygon")
+                        .attr("points", breadcrumbPoints)
+                        .style("fill", function(d) {
+                            console.log(d)
+                            if(colors[d.name]!=undefined){
+                                return colors[d.name]
+                            } else if (d.parent!=undefined && colors[d.parent.name]!=undefined){
+                                return colors[d.parent.name];
+                            } else {
+                                return;
+                            }
+                        })
+
+                entering.append("svg:text")
+                        .attr("x", (b.w + b.t) / 2)
+                        .attr("y", b.h / 2)
+                        .attr("dy", "0.35em")
+                        .attr("text-anchor", "middle")
+                        .text(function(d) { return d.name; });
+
+                // Set position for entering and updating nodes.
+                g.attr("transform", function(d, i) {
+                    return "translate(" + i * (b.w + b.s) + ", 0)";
+                });
+
+                // Remove exiting nodes.
+                g.exit().remove();
+
+                // Now move and update the percentage at the end.
+                d3.select("#trail").select("#endlabel")
+                        .attr("x", (nodeArray.length + 0.5) * (b.w + b.s))
+                        .attr("y", b.h / 2)
+                        .attr("dy", "0.35em")
+                        .attr("text-anchor", "middle")
+                        .text(percentageString);
+
+                // Make the breadcrumb trail visible, if it's hidden.
+                d3.select("#trail")
+                        .style("visibility", "");
+
+            }
+
+            function drawLegend() {
+
+                // Dimensions of legend item: width, height, spacing, radius of rounded rect.
+                var li = {
+                    w: 300, h: 30, s: 3, r: 3
+                };
+
+                var legend = d3.select("#legend").append("svg:svg")
+                        .attr("width", li.w)
+                        .attr("height", d3.keys(colors).length * (li.h + li.s));
+
+                var g = legend.selectAll("g")
+                        .data(d3.entries(colors))
+                        .enter().append("svg:g")
+                        .attr("transform", function(d, i) {
+                            return "translate(0," + i * (li.h + li.s) + ")";
+                        });
+
+                g.append("svg:rect")
+                        .attr("rx", li.r)
+                        .attr("ry", li.r)
+                        .attr("width", li.w)
+                        .attr("height", li.h)
+                        .style("fill", function(d) { return d.value; });
+
+                g.append("svg:text")
+                        .attr("x", li.w / 2)
+                        .attr("y", li.h / 2)
+                        .attr("dy", "0.35em")
+                        .attr("text-anchor", "middle")
+                        .text(function(d) { return d.key; });
+            }
+
+            function toggleLegend() {
+                var legend = d3.select("#legend");
+                if (legend.style("visibility") == "hidden") {
+                    legend.style("visibility", "");
+                } else {
+                    legend.style("visibility", "hidden");
+                }
+            }
+
+            // Take a 2-column CSV and transform it into a hierarchical structure suitable
+            // for a partition layout. The first column is a sequence of step names, from
+            // root to leaf, separated by hyphens. The second column is a count of how
+            // often that sequence occurred.
+            function buildHierarchy(csv) {
+
+
+
+
+                csv = (_.filter(csv, function(o) {return o['CodeExt'] === window._selectedCountry.id}))[0];
+
+                var root = {
+                    "name": "root",
+                    "children": [
+                        {"name":"Personal care", "size":0, "children":[
+                            {"name":"Sleep", "size":0, "children":[]},
+                            {"name":"Eating", "size":0, "children":[]},
+                            {"name":"Other personal care", "size":0, "children":[]}
+                        ]},
+                        {"name":"Employment", "size":0, "children":[
+                            {"name":"Commuting", "size":0, "children":[]},
+                            {"name":"Employment Activities", "size":0, "children":[]}
+                        ]},
+                        {"name":"Study", "size":0, "children":[
+                            {"name":"At school and university", "size":0, "children":[]},
+                            {"name":"Homework", "size":0, "children":[]}
+                        ]},
+
+                        {"name":"Household and family care", "size":0, "children":[
+                            {"name":"Food management", "size":0, "children":[]},
+                            {"name":"Dish washing", "size":0, "children":[]},
+                            {"name":"House cleaning", "size":0, "children":[]},
+                            {"name":"Household upkeep", "size":0, "children":[]},
+                            {"name":"Laundry", "size":0, "children":[]},
+                            {"name":"Ironing", "size":0, "children":[]},
+                            {"name":"Textile care", "size":0, "children":[]},
+                            {"name":"Gardening", "size":0, "children":[]},
+                            {"name":"Caring for pets", "size":0, "children":[]},
+                            {"name":"Construction and repairs", "size":0, "children":[]},
+                            {"name":"Errands", "size":0, "children":[]},
+                            {"name":"Childcare", "size":0, "children":[]},
+                            {"name":"Instructional childcare", "size":0, "children":[]},
+                            {"name":"Household member care", "size":0, "children":[]}
+                        ]},
+                        {"name":"Leisure and social life", "size":0, "children":[
+                            {"name":"Organizing", "size":0, "children":[]},
+                            {"name":"Neighbor care", "size":0, "children":[]},
+                            {"name":"Participatory activities", "size":0, "children":[]},
+                            {"name":"Visiting and feasts", "size":0, "children":[]},
+                            {"name":"Entertainment and culture", "size":0, "children":[]},
+                            {"name":"Resting", "size":0, "children":[]},
+                            {"name":"Walking and hiking", "size":0, "children":[]},
+                            {"name":"Sports and outdoor activities", "size":0, "children":[]},
+                            {"name":"Computer games", "size":0, "children":[]},
+                            {"name":"Computing", "size":0, "children":[]},
+                            {"name":"Hobbies and games", "size":0, "children":[]},
+                            {"name":"Reading books", "size":0, "children":[]},
+                            {"name":"Other reading", "size":0, "children":[]},
+                            {"name":"TV and video", "size":0, "children":[]},
+                            {"name":"Radio and music", "size":0, "children":[]},
+                            {"name":"Travel related to study", "size":0, "children":[]},
+                            {"name":"Travel related to shopping and services", "size":0, "children":[]}
+                        ]}
+                    ]
+                };
+
+                _(root.children).forEach(function(item){
+                    item.size = timeToMinutes(csv[item.name]);
+                    _(item.children).forEach(function(childitem){
+                        childitem.size = timeToMinutes(csv[childitem.name]);
+                    })
+                })
+
+                return root;
+
+            };
+
+
+
+            function timeToMinutes(time){
+                return moment.duration(time).asMinutes();
+            }
+
+            function minutesToTime(minutes){
+                return numeral(minutes).format('hh:mm');
+            }
+
+
+
+
+        }
+
+
+    </script>
+
+    <script>
+        d3.selectAll('#maleButton').on('click', function(data) {
+            console.log('male');
+            window._selectedGender="male";
+            $(function() {
+                $('html, body').stop().animate({
+                    scrollTop: $('#services').offset().top
+                }, 1500, 'easeInOutExpo');
+            });
+        });
+
+        d3.selectAll('#femaleButton').on('click', function(data) {
+            console.log('female');
+            window._selectedGender="female";
+            $(function() {
+                $('html, body').stop().animate({
+                    scrollTop: $('#services').offset().top
+                }, 1500, 'easeInOutExpo');
+            });
+        });
+
+
     </script>
 
 </body>
