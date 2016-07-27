@@ -1,0 +1,90 @@
+<html>
+
+    <head>
+        <title>SUPSI D3js 00</title>
+        <style>
+
+        </style>
+        <script src="https://d3js.org/d3.v3.min.js"></script>
+    </head>
+    
+    <body>
+        <script>
+        
+        
+        
+
+
+var dataSet = {};
+var actArr = [];
+var activityNr;
+var activityValues = [];
+var gender;
+var maxActArr = [];
+var minActArr = [];
+
+var datasetFile;
+
+if(gender === "male") {
+    datasetFile = "../datasets/maleTimeHappynessDataset.csv";
+} else {
+    datasetFile = "../datasets/femaleTimeHappynessDataset.csv";
+}
+d3.csv(datasetFile, function (data) {
+       dataSet = data;
+    
+    
+    function getActivitiesArray(data) {
+        return Object.keys(data[0]).slice(5);
+    }
+    
+    actArr = getActivitiesArray(dataSet);
+    
+    actArr.forEach(function(value) {
+        activityValues.push(0);
+    })
+//    console.log(ActivityValues);
+//    console.log(ActivityValues.length);
+    
+    activityNr = 0;
+    
+    //maxActArr minActAtt junior
+    actArr.forEach(function(prop) {
+        var obj = {};
+        obj[prop] = 0;
+        maxActArr.push(obj);
+        
+        var objMin = {};
+        objMin[prop] = 0;
+        minActArr.push(objMin);
+    })
+    
+    console.log("maxActArr");
+    console.log(maxActArr);
+    console.log(maxActArr[0]);
+    console.log("minActArr");
+    console.log(minActArr[4]);
+    
+    for(var i = 0; i>actArr.length; i++) {
+        console.log(data);
+        data.forEach(function(instance) {
+            //maxActArr
+            if(instance[actArr[i]] > maxActArr[actArr[i]]) {
+                maxActArr[actArr[i]] = instance[actArr[i]];
+                
+                console.log(maxActArr[actArr[i]]);
+            }
+        })
+    }
+//    actArr.forEach(function(prop) {
+//       data.forEach(function(instance) {
+//           if(instance[prop] > )
+//       }) 
+//    });
+});
+        
+        
+        </script>    
+    </body>
+    
+</html>
