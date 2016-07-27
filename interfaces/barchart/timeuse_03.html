@@ -1,10 +1,6 @@
 <html>
     <head>
         <script src="https://d3js.org/d3.v3.min.js"></script>
-        <style>
-            text {'fill', 'white'}
-            /*text.shadow {stroke: black; stroke-width: 2.5px; opacity: 0.3;}*/
-        </style>
     </head>
         
     <body>
@@ -67,8 +63,6 @@
                 })
                     .style('fill', 'steelblue')
                 
-                
-                
 //text
                 d3.select('svg')
                     .selectAll('text')
@@ -78,7 +72,7 @@
                     .attr('font-family', 'MyriadPro-Regular')
                     .attr('font-size', 10)
                     .attr('fill', 'white')
-                    //.attr('class', 'shadow')
+                        .attr('class', 'shadow')
                     .attr('x', -544)
                     .attr('y', function(d, i){
                         return i*25+32
@@ -96,25 +90,7 @@
                         //if special chars use the notation below
                         //return d['GEO/ACL00'].concat(' ', d.SEX)
                         return d['CodeExt']
-                })
-                
-                //add black for shadow
-//                    .select('svg')
-//                    .append('text')
-//                    .attr('fill', 'grey')
-//                    .attr("class", "shadow")
-//                    .text(function(d, i){
-//                        var female = "Females"
-//                        var male = "Males"
-//                        
-//                        d.SEX=d.SEX.replace('Females', '(F)')
-//                        d.SEX=d.SEX.replace('Males', '(M)')
-//                        
-//                        return d.GEO.concat(' ', d.SEX)
-//                })
-                    
-                    
-                    
+                })                    
             })
         </script>
     </body>
