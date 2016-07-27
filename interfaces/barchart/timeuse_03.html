@@ -10,7 +10,7 @@
     <body>
         <svg height="1000" width="1000"></svg>
         <script>
-            d3.csv('../datasets/TimeUse.csv', function(data){
+            d3.csv('../datasets/femaleTimeHappynessDataset.csv', function(data){
                 
                 //console.log(data)
                 
@@ -93,7 +93,9 @@
                         d.SEX=d.SEX.replace('Females', '(F)')
                         d.SEX=d.SEX.replace('Males', '(M)')
                         
-                        return d['GEO/ACL00'].concat(' ', d.SEX)
+                        //if special chars use the notation below
+                        //return d['GEO/ACL00'].concat(' ', d.SEX)
+                        return d.GEO.concat(' ', d.SEX)
                 })
                 
                 //add black for shadow
