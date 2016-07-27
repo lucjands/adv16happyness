@@ -1,5 +1,8 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'node', '/usr/local/bin/npm', 'run', 'serve' ]
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/lib/node_modules/npm/bin/npm-cli.js',
+1 verbose cli   'run-script',
+1 verbose cli   'serve' ]
 2 info using npm@3.8.5
 3 info using node@v0.12.7
 4 verbose run-script [ 'preserve', 'serve', 'postserve' ]
@@ -24,7 +27,7 @@
 15 verbose pkgid adv16happiness@1.0.0
 16 verbose cwd /Users/marco/work/adv16_workshop/adv16happiness
 17 error Darwin 14.5.0
-18 error argv "node" "/usr/local/bin/npm" "run" "serve"
+18 error argv "/usr/local/bin/node" "/usr/local/lib/node_modules/npm/bin/npm-cli.js" "run-script" "serve"
 19 error node v0.12.7
 20 error npm  v3.8.5
 21 error code ELIFECYCLE
