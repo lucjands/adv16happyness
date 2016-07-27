@@ -41,8 +41,11 @@ converter2.fromString(world_happiness_indicators_2016, function(err,result){
     
     result.forEach(function(insteanses) {
         countries.forEach(function(useCountry) {
+            var writeInstance = {};
             if(useCountry == insteanses.Country) {
-                dataSet.push(insteanses);
+                writeInstance.Country = insteanses.Country;
+                writeInstance["Happiness score"] = insteanses["Happiness score"];
+                dataSet.push(writeInstance);
             }
         })
     })

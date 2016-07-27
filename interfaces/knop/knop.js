@@ -1,9 +1,21 @@
-$(function() {
-    console.log("test");
-    $(".dial").knob({
-        'change': function(v) {
+$(function () {
+    $('.dial').knob({
+        'change': function (v) {
             console.log(v);
         }
     });
-    console.log("values:");
 });
+
+
+    
+
+$('button').click(function () {
+    console.log('reload');
+    $('.dial').val(0).trigger('change').knob({
+        'angleArc': 5,
+        'change': function (v) {
+            console.log(v);
+        }
+    })
+})
+

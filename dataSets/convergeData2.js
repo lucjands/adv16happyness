@@ -2,6 +2,7 @@ var fs = require("fs");
 var Converter = require("csvtojson").Converter;
 var _ = require("lodash");
 var json2csv = require('json-2-csv');
+var prettyjson= require("prettyjson");
 
 var happynessData = fs.readFileSync("happynessData.csv", "utf8");
 var timeUse = fs.readFileSync("TimeUse.csv", "utf8");
@@ -15,12 +16,13 @@ converter.fromString(happynessData, function(err, result) {
         console.error(err);
     }
     
-    result.forEach(function(object) {
-        countryHappyDataSet.push({
-            Country: object.Country,
-            'Happiness score': object["Happiness score"]
-        })
-    });
+    countryHappyDataSet = result;
+//    result.forEach(function(object) {
+//        countryHappyDataSet.push({
+//            Country: object.Country,
+//            'Happiness score': object["Happiness score"]
+//        })
+//    });
     
 //    console.log(countryHappyDataSet);
     
@@ -37,18 +39,20 @@ converter.fromString(happynessData, function(err, result) {
                     var currentObj = {};
                     currentObj = object;
                     currentObj["Happiness score"] = itteration["Happiness score"];
+//                    console.log(prettyjson.render(currentObj));
                     convertedDataSet.push(currentObj);
                 }
                 if(itteration.Country === "Germany" && object["GEO/ACL00"] === "Germany (including  former GDR from 1991)") {
                     var currentOBj = {};
                     currentObj = object;
                     currentObj["Happiness score"] = itteration["Happiness score"];
+//                    console.log(prettyjson.render(currentObj));
                     convertedDataSet.push(currentObj);
                 }
             });
         });
-        console.log(convertedDataSet);
-        console.log("length: " + convertedDataSet.length);
+        console.log(prettyjson.render(convertedDataSet));
+        //console.log("length: " + convertedDataSet.length);
         
         json2csv.json2csv(convertedDataSet, function(err, csv) {
             if(err) {
