@@ -19,7 +19,7 @@
                     codesArray.push(a.CodeExt);
                 });
 
-                happyArray.sort().reverse();
+                //happyArray.sort().reverse();
                 
                 var min = d3.min(happyArray);
                 
@@ -27,32 +27,21 @@
                 
                 var scale = d3.scale.linear()
                     .domain([min, max])
-                    .range([0, 500]);
+                    .range([40, 300]);
 
                 // console.log(min, max, scale(happyArray[3]));
                 
-                //bars
+//bars
                 d3.select('svg')
                     .selectAll('rect')
                     .data(happyArray)
                     .enter()
                     .append('rect')
                     .attr('height', function(d, i){
-                        //var timeString=d.['Happiness score'];
-                        //var splitted = timeString.split(':');
-                        //var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]);   
-                        
-                    //return scale(timeMinutes)
                     return scale(d)
-                    //return timeMinutes;
                 })
                     .attr('width', 20)
                     .attr('y', function(d, i){
-                        //var timeString=d.['Happiness score'];
-                        //var splitted = timeString.split(':');
-                        //var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]); 
-                    
-                        //var myOffset = max - scale(timeMinutes)
                         var myOffset = scale(max) - scale(d);
                         // console.log(myOffset);
                         return myOffset;
@@ -72,7 +61,7 @@
                     .attr('font-size', 10)
                     .attr('fill', 'white')
                         .attr('class', 'shadow')
-                    .attr('x', -544)
+                    .attr('x', -295)
                     .attr('y', function(d, i){
                         return i*25+32
                 })
@@ -80,14 +69,6 @@
                         return "rotate(-90)" 
                 })
                     .text(function(d, i){
-                        var female = "Females"
-                        var male = "Males"
-                        
-                        d.SEX=d.SEX.replace('Females', '(F)')
-                        d.SEX=d.SEX.replace('Males', '(M)')
-                        
-                        //if special chars use the notation below
-                        //return d['GEO/ACL00'].concat(' ', d.SEX)
                         return d['CodeExt']
                 })                    
             })
