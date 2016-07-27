@@ -78,7 +78,7 @@
                     .attr('font-family', 'MyriadPro-Regular')
                     .attr('font-size', 10)
                     .attr('fill', 'white')
-                    .attr('class', 'shadow')
+                    //.attr('class', 'shadow')
                     .attr('x', -544)
                     .attr('y', function(d, i){
                         return i*25+32
@@ -95,7 +95,7 @@
                         
                         //if special chars use the notation below
                         //return d['GEO/ACL00'].concat(' ', d.SEX)
-                        return d['GEO/ACL00'].concat(' ', d.SEX)
+                        return d['CodeExt']
                 })
                 
                 //add black for shadow
