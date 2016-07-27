@@ -10,23 +10,28 @@
                 
                 //console.log(data)
                 
+                //var happiness=['Happiness score']*1000
+                //console.log(happiness)
+
                 data.sort(function(a, b){
-                    return d3.descending(a.Sleep, b.Sleep)
+                    return d3.descending(a['Happiness score'], b['Happiness score'])
                 })
+
+                console.log(data)
                 
                 var min = d3.min(data, function(d, i){
-                    var timeString=d.Sleep;
-                    var splitted = timeString.split(':');
-                    var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]);   
-                    return timeMinutes
+                    //var timeString=d.['Happiness score'];
+                    //var splitted = timeString.split(':');
+                    //var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]);   
+                    return d
                     
                 })
                 
                 var max = d3.max(data, function(d, i){
-                    var timeString=d.Sleep;
-                    var splitted = timeString.split(':');
-                    var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]);   
-                    return timeMinutes
+                    //var timeString=d.['Happiness score'];
+                    //var splitted = timeString.split(':');
+                    //var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]);   
+                    return d
                     
                 })
                 
@@ -41,20 +46,22 @@
                     .enter()
                     .append('rect')
                     .attr('height', function(d, i){
-                        var timeString=d.Sleep;
-                        var splitted = timeString.split(':');
-                        var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]);   
+                        //var timeString=d.['Happiness score'];
+                        //var splitted = timeString.split(':');
+                        //var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]);   
                         
-                    return scale(timeMinutes)
+                    //return scale(timeMinutes)
+                    return scale(d)
                     //return timeMinutes;
                 })
                     .attr('width', 20)
                     .attr('y', function(d, i){
-                        var timeString=d.Sleep;
-                        var splitted = timeString.split(':');
-                        var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]); 
+                        //var timeString=d.['Happiness score'];
+                        //var splitted = timeString.split(':');
+                        //var timeMinutes=parseInt(splitted[0])*60+parseInt(splitted[1]); 
                     
-                        var myOffset = max - scale(timeMinutes)
+                        //var myOffset = max - scale(timeMinutes)
+                        var myOffset = max - scale(d)
                         console.log(myOffset)
                         return myOffset
                 })
