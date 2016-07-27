@@ -82,6 +82,9 @@
                     .style('fill', 'orange')
                     .attr('x', 18)
                     .attr('y', scale(max)/2)
+                    .transition()
+                    .duration(2000)
+                    .attr('y', scale(max)/2-100)
 
 
             })
