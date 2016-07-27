@@ -1,87 +1,70 @@
-var dataSet = {};
-        var activityNr;
-        var actArr = [];
-        var activityValues = [];
-        var gender = window.selectedGender;
-        var maxActArr = [];
-        var minActArr = [];
+(function(){
+  var Happiness = {};
 
-        var datasetFile;
+  function timeToMinutes(time){
+      return moment.duration(time).asMinutes();
+  }
 
-        if(gender === "male") {
-            datasetFile = "/datasets/maleTimeHappynessDataset.csv";
-        } else {
-            datasetFile = "/datasets/femaleTimeHappynessDataset.csv";
-        }
-        d3.csv(datasetFile, function (data) {
-               dataSet = data;
+  function minutesToTime(minutes){
+      return numeral(minutes).format('hh:mm');
+  }
 
+  Happiness.getRawData = function() { return Happiness.dataSet; };
+  Happiness.getActivityData = function() { return Happiness.activityData; };
 
-            function getActivitiesArray(data) {
-                return Object.keys(data[0]).slice(5);
-            }
+  Happiness.setGender = function(gender) { Happiness.gender = gender; };
 
-            actArr = getActivitiesArray(data);
+  Happiness.init = function(gender) {
+    Happiness.activityData = null;
+    Happiness.setGender(gender);
+  };
 
-            actArr.forEach(function(value) {
-                activityValues.push(0);
-            })
-        //    console.log(ActivityValues);
-        //    console.log(ActivityValues.length);
+  Happiness.load = function() {
+    var datasetFile = (Happiness.gender === "male") ?
+          "datasets/maleTimeHappynessDataset.csv" :
+          "datasets/femaleTimeHappynessDataset.csv";
 
-            activityNr = 0;
+    var activityFields = ['Personal care','Sleep','Eating','Other personal care','Employment','Commuting','Employment Activities','Study','At school and university','Homework','Household and family care','Food management','Dish washing','House cleaning','Household upkeep','Laundry','Ironing','Textile care','Gardening','Caring for pets','Construction and repairs','Errands','Childcare','Instructional childcare','Household member care','Leisure and social life','Organizing','Neighbor care','Participatory activities','Visiting and feasts','Other social life','Entertainment and culture','Resting','Walking and hiking','Sports and outdoor activities','Computing','Hobbies and games','Reading books','Other reading','TV and video','Radio and music','Unspecified leisure','Travel unrelated to work','Travel to and from work','Travel related to study','Transporting children','Unspecified time use'];
 
-            //maxActArr minActAtt junior
-            
-            function createMaxMinArr(initMaxMinArr) {
-                actArr.forEach(function(prop) {
-                    var obj = {};
-                    obj[prop] = 0;
-                    maxActArr.push(obj);
+    return d3.promise.csv(datasetFile).then(function(data) {
+      Happiness.dataSet = data;
+      // console.log(data);
 
-                    var objMin = {};
-                    objMin[prop] = "24:00";
-                    minActArr.push(objMin);
-                })
-                
-                initMaxMinArr();
-            }
-            
-            var initMaxMinArr = function () {
-                for(var i = 0; i<actArr.length; i++) {
-                    dataSet.forEach(function(instance) {
-                        //maxActArr
-                        var instanceMinutes = timeToMinutes(instance[actArr[i]]);
-                        var maxActArrMinutes = timeToMinutes(maxActArr[actArr[i]]);
-                        var minActArrMinutes = timeToMinutes(minActArr[actArr[i]]);
-                        if(instanceMinutes > maxActArrMinutes) {
+      var dataActivity = {};
+      // Initialise a pivot table
+      activityFields.forEach(function(fldname) {
+        dataActivity[fldname] = {
+          data: [],
+          min: null,
+          max: null
+        };
+      });
 
-                            maxActArr[actArr[i]] = instance[actArr[i]];
-
-                        }
-                        if(instanceMinutes < minActArrMinutes) {
-
-                            minActArr[actArr[i]] = instance[actArr[i]];
-
-                        }
-                    })
-                }
-                
-                maxActArr.forEach(function(maxObjects) {
-                            console.log(maxObjects);
-                });
-
-            }
-            
-            createMaxMinArr(initMaxMinArr);
-            
-            
-            
-            
-            
-        //    actArr.forEach(function(prop) {
-        //       data.forEach(function(instance) {
-        //           if(instance[prop] > )
-        //       }) 
-        //    });
+      // Pivot
+      data.forEach(function(row) {
+        var countryName = row.GEO;
+        activityFields.forEach(function(fldname) {
+          dataActivity[fldname].data.push({
+            country: countryName,
+            minutes: timeToMinutes(row[fldname])
+          });
         });
+      });
+
+      // Sort each column
+      activityFields.forEach(function(fldname) {
+        dataActivity[fldname].data.sort(function(a, b) {
+          return a.minutes > b.minutes;
+        });
+        dataActivity[fldname].min = dataActivity[fldname].data[0].minutes;
+        var le = dataActivity[fldname].data.length - 1;
+        dataActivity[fldname].max = dataActivity[fldname].data[le].minutes;
+      });
+
+      // console.log(dataActivity);
+      Happiness.activityData = dataActivity;
+    });
+  };
+
+  window.Happiness = Happiness;
+}());
