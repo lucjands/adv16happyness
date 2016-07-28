@@ -55,3 +55,12 @@
 #femaleButton, #maleButton{
     font-size: 20em !important;}
 }
+
+
+
+/* === circle knop styles === */
+.flat-button {
+    border-style:none;
+    background: none;
+   align-items: center;
+/* ====== */ 

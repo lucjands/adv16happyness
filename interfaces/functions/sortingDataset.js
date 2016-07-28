@@ -1,5 +1,7 @@
 (function(){
   var Happiness = {};
+  //Happiness.activityFields
+  //Happiness.activityData
 
   function timeToMinutes(time){
       return moment.duration(time).asMinutes();
@@ -24,11 +26,12 @@
     var datasetFile = (Happiness.gender === "male") ?
           "datasets/maleTimeHappynessDataset.csv" :
           "datasets/femaleTimeHappynessDataset.csv";
+          // "../datasets/maleTimeHappynessDataset.csv" :
+          // "../datasets/femaleTimeHappynessDataset.csv";
 
 
     return d3.promise.csv(datasetFile).then(function(data) {
       Happiness.dataSet = data;
-      // console.log(data);
 
       var dataActivity = {};
       // Initialise a pivot table
@@ -41,7 +44,10 @@
       });
 
       // Pivot
-      data.forEach(function(row) {
+      console.log(data);
+      console.log(typeof data);
+      data.forEach(function (row) {
+        console.log(row);
         var countryName = row.GEO;
         Happiness.activityFields.forEach(function(fldname) {
           dataActivity[fldname].data.push({
@@ -61,7 +67,7 @@
         dataActivity[fldname].max = dataActivity[fldname].data[le].minutes;
       });
 
-      // console.log(dataActivity);
+      console.log(dataActivity);
       Happiness.activityData = dataActivity;
     });
   };

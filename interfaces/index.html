@@ -27,7 +27,12 @@
     <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+    <!-- Added so that the script in the control section would load afher the document is ready -->
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=" crossorigin="anonymous"></script>
+
 
 </head>
 
@@ -131,6 +136,29 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Play with your time</h1>
+
+                            <div id="knopInterface" style="
+                                height: 800px;
+                                width: 800px;
+                            ">
+                                <div id="title"></div>
+                                <div style="display: flex;">
+                                    <button class="flat-button circleButton" id="left"><i class="fa fa-chevron-left fa-2x"  aria-hidden="true"></i></button>
+
+                                    <input type="text" value="75" class="dial">
+
+                                    <button class="flat-button circleButton" id="right"><i class="fa fa-chevron-right fa-2x"  aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+
+                            <svg height="1000" width="1000"></svg>
+
+                    <script>
+                        $( document ).ready(function() {
+                            timeUse.init(dataSet);
+                            timeUse.draw();
+                        });
+                    </script>
                 </div>
             </div>
 
@@ -155,8 +183,6 @@
         </div>
     </section>
 
-    <!-- JQuery -->
-    <script src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=" crossorigin="anonymous"></script>
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -658,8 +684,11 @@
 
     <script src="vendor/d3-promise/es6-promise.js"></script>
     <script src="vendor/d3-promise/d3.promise.js"></script>
+    <script src="vendor/jquery.knob.min.js"></script>
     <script src="functions/sortingDataset.js"></script>
     <script src="functions/userData.js"></script>
+    <script src="functions/circleKnop.js"></script>
+    <script src="functions/timeUse.js"></script>
 
     <script>
 
@@ -695,12 +724,21 @@
         Happiness.init(window._selectedGender);
         var promisesLand = Happiness.load().then(function() {
 
-          console.log(Happiness.getActivityData());
-          console.log("test");
           userData.init(Happiness.activityFields, Happiness.activityData);
-          console.log(userData.getActivityValue(Happiness.activityFields[4]));
-          console.log(Happiness.activityFields[6]);
           // console.log()
+        });
+
+        var loadKnop = promisesLand.then(function() {
+            // try {
+                console.log("test");
+                circleKnop.init(
+                    userData.getCurrentActivity(),
+                    userdata.getCurrentActivityNr,
+                    Happiness.activityData
+                    );
+            // } catch(e) {
+                // console.error(e.message);
+            // }
         });
 
     </script>

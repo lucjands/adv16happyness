@@ -38,7 +38,7 @@ function getActivitiesArray(data) {
 function createknop(activity ,minVal, maxVal) $(function () {
     console.log(activity);
     $("#title").html(activity);
-    $('.dial').knob({
+    $('.dial').val(4).knob({
         //UI
         "min": 20,
         "max": 40,
