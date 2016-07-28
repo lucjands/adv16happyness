@@ -14,10 +14,18 @@
                 //console.log(happiness)
                 happyArray = [];
                 codesArray = [];
-                data.forEach(function(a) {
+                finalArr = []
+                data.forEach(function(a, i) {
                     happyArray.push(parseFloat(a['Happiness score']));
                     codesArray.push(a.CodeExt);
+
+                    finalArr.push({happyness:parseFloat(a['Happiness score']), index:i})
                 });
+                console.log(finalArr)
+
+                var sorted = finalArr.slice().sort(function(a, b){
+                    return d3.ascending(a.happyness, b.happyness)
+                })
 
                 //happyArray.sort().reverse();
                 
@@ -34,15 +42,18 @@
 //bars
                 d3.select('svg')
                     .selectAll('rect')
-                    .data(happyArray)
+                    .data(finalArr)
                     .enter()
                     .append('rect')
+                    .attr("id", function(d, i){
+                        return 'myrect_' + d.index
+                    })
                     .attr('height', function(d, i){
-                    return scale(d)
+                    return scale(d.happyness)
                 })
                     .attr('width', 20)
                     .attr('y', function(d, i){
-                        var myOffset = scale(max) - scale(d);
+                        var myOffset = scale(max) - scale(d.happyness);
                         // console.log(myOffset);
                         return myOffset;
                 })
@@ -73,18 +84,60 @@
                 })
 
 //happinessbar
-                d3.select('svg')
+                var bar = d3.select('svg')
                     .append('rect')
                     .attr('height', 2)
                     .attr('width', function(d, i){
                         return data.length*25
-                })                    
+                    })                    
                     .style('fill', 'orange')
                     .attr('x', 18)
-                    .attr('y', scale(max)/2)
-                    .transition()
-                    .duration(2000)
-                    .attr('y', scale(max)/2-100)
+                    .attr('y', 500)
+
+                var currRect
+
+                function moveBar(index){
+                    var current = sorted[index]
+                    bar.transition()
+                        .duration(1000)
+                        .attr('y', function(){
+                            return scale(max) - scale(current.happyness)
+                        })
+
+                    if(currRect){
+
+                        currRect.transition()
+                            .duration(1000)
+                            .style('fill', 'steelblue')
+                    }
+
+                    currRect = d3.select('svg')
+                        .select('#myrect_' + current.index)
+                    
+                    currRect.transition()
+                            .duration(1000)
+                            .style('fill', 'orange')
+
+
+                }
+
+                var cnt = 0
+                var dir = 1
+                d3.select('svg')
+                    .on('click', function(){
+                        moveBar(cnt)
+                        cnt+=dir
+                        if(cnt==sorted.length){
+                            dir=-1
+                            cnt = sorted.length-1
+                        } 
+                    })
+                    // .transition()
+                    // .duration(2000)
+                    // .attr('y', function(d, i){
+                    //     return scale(max) - scale(d)
+                    // })
+                    
 
 
             })
