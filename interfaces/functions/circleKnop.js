@@ -12,14 +12,11 @@
 		var max = activityMinMax[activity].max;
 
 		$("#knopInterface #title").html(activity);
-        $('.dial').val(min).knob() {
-            //UI
+        $('.dial').val(min).knob({
             "min": min,
             "max": max,
             "fgColor": "#FF0000",
-
             'change': function (v) {
-
                 console.log(v);
                 userData.setActivityValue(v);
 
