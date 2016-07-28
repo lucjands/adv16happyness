@@ -6,19 +6,29 @@
 
 	var happyArray = [];
     var codesArray = [];
+    var finalArray = [];
 
     var min;
     var max;
     var scale;
+    var sorted;
 
 	timeUse.init = function(dataSet) {
         console.log(15, "dataSet initialising");
         
         data = dataSet;
 
-		data.forEach(function(row) {
-			happyArray.push(parseFloat(row["Happiness score"]));
+		data.forEach(function(row, i) {
+            var happyScore = parseFloat(row["Happiness score"]);
+			happyArray.push(happyScore);
 			codesArray.push(row.codeExt);
+
+            console.log(26, "init barChart");
+
+            finalArray.push({
+                happyness:happyScore,
+                index: i
+            });
 		})
 
 		min = d3.min(happyArray);
@@ -28,23 +38,34 @@
 		.domain([min, max])
 			.range([40, 300]);
 
+        sorted = finalArray.slice().sort(function(a, b){
+            return d3.ascending(a.happyness, b.happyness)
+        });
 	}
 
+    var currRect;
+    var bar;
+
 	timeUse.draw = function() {
+
+
 
 		//bars
 		d3.select('#barsContainer svg')
                     .selectAll('rect')
-                    .data(happyArray)
+                    .data(finalArray)
                     .enter()
                     .append('rect')
                     .attr('class', 'bar')
+                    .attr('id', function(d, i) {
+                        return 'myrect_' + d.index;
+                    })
                     .attr('height', function(d, i){
-                    return scale(d)
+                    return scale(d.happyness)
                 })
                     .attr('width', 20)
                     .attr('y', function(d, i){
-                        var myOffset = scale(max) - scale(d);
+                        var myOffset = scale(max) - scale(d.happyness);
                         // console.log(myOffset);
                         return myOffset;
                 })
@@ -74,7 +95,7 @@
                         return d['CodeExt']
                 })
 
-        //happinessbar
+                //happinessbar
                 d3.select('#barsContainer svg')
                     .append('rect')
                     .attr('id', 'happinessbar')
@@ -91,15 +112,41 @@
 
 	}
 
+    timeUse.moveBar = function(index) {
+        console.log(116, "try to use moveBar");
+        var current = sorted[index]
+        bar.transition()
+            .duration(1000)
+            .attr('y', function(){
+                return scale(max) - scale(current.happyness)
+            })
+
+        if(currRect){
+
+            currRect.transition()
+                .duration(1000)
+                .style('fill', 'steelblue')
+        }
+
+        currRect = d3.select('svg')
+            .select('#myrect_' + current.index)
+        
+        currRect.transition()
+                .duration(1000)
+                .style('fill', 'orange')
+    };
+
 	timeUse.updateBar=function(happinessScore) {
 		d3.select('#barsContainer svg')
 		.select('.happinessbar')
 		.attr('y', scale(max)/happinessScore);
 	};
 
-	timeUse.updateCountrySelect=function(activity, value) {
+	timeUse.updateCountrySelect = function(activity, value) {
 
-        console.log("ping");
+        console.log(102, "ping");
+        console.log(103, activity);
+        console.log(104, value);
 
 		var country = compareCountries(activity, value)
 		d3.select('#barsContainer svg')

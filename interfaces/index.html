@@ -169,8 +169,7 @@
 
                     <script>
                         $( document ).ready(function() {
-                            timeUse.init(Happiness.dataSet);
-                            timeUse.draw();
+                           // timeUse.draw();
                         });
                     </script>
                 </div>
@@ -729,15 +728,24 @@
         Happiness.init(window._selectedGender);
         var promisesLand = Happiness.load().then(function() {
 
+          console.log(731, Happiness.activityFields);
+          console.log(732, Happiness.activityData);
+
           userData.init(Happiness.activityFields, Happiness.activityData);
+
+          timeUse.init(Happiness.dataSet);
         });
 
         var loadKnop = promisesLand.then(function() {
             // try {
                 var param1 = userData.getCurrentActivity();
+                console.log(736, param1);
                 var param2 = userData.getCurrentActivityNr();
+                console.log(738, param2);
                 var param3 = Happiness.activityData;
+                console.log(740, param3);
                 var param4 = Happiness.activityFields;
+                console.log(742, param4);
 
                 circleKnop.init(
                     param1,
@@ -745,6 +753,9 @@
                     param3,
                     param4
                 );
+
+                console.log(748, Happiness.dataSet);
+                //timeUse.init(Happiness.dataSet);
             // } catch(e) {
                 // console.error(e.message);
             // }

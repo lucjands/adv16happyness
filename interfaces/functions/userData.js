@@ -4,6 +4,8 @@
      var activities = [];
      
      userData.init = function(activities, activityData) {
+        console.log(7, "init userData");
+
         var activityValues = {};
         activities = activities;
 
@@ -19,6 +21,11 @@
         userData.currentActivityNr = currentActivityNr;
 
         dataActivities = activityData;
+
+        console.log(25, "end of userData init");
+        console.log(userData.activityValues);
+        console.log(userData.currentActivityNr);
+
     }
      
      userData.setActivityValue = function(activity, value) {
@@ -40,6 +47,7 @@
      
      userData.setCurrentActivityNr = function(activity) {
         if(typeof activity === "number") {
+            console.log(50, "activityNr: " + activity);
             userData.currentActivityNr = activity;
             userData.currentActivity = activities[activity];
         } else {
@@ -47,7 +55,7 @@
         }
      }
      
-     userData.getCurrentActivity = function(activity) {
+     userData.getCurrentActivity = function() {
          return userData.currentActivity;
      }
      

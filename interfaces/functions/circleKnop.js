@@ -13,6 +13,10 @@
 		var min = activityMinMax[activity].min;
 		var max = activityMinMax[activity].max;
 
+		//TESTTESTTEST
+		console.log(17, "test init");
+		//TESTTEST
+
 		$("#knopInterface #title").html(activity);
         $('.dial').val(min).knob({
             "min": min,
@@ -21,12 +25,13 @@
             "bgColor": "#FFFFFF",
             'change': function (v) {
                 console.log(v);
-                userData.setActivityValue(v);
+                userData.setActivityValue(activity, v);
 
                 timeUse.updateCountrySelect(userData.getCurrentActivity(), userData.getCurrentActivityNr());
-            }
+            }   
         });
 
+        console.log(35, "button showen");
 
 		//button needs to bee specified
 		$('.circleButton').click(function () {
@@ -44,9 +49,13 @@
 		        // console.log(actArr);
 		        
 		        // changeButton();
-		    } else if(direction === 'right' && activityNr != (activityFields.length-1)) {
+		    } else if(direction === 'right' && activityNr !== (activityFields.length-1)) {
+		        console.log(53, activityNr);
 		        activityNr++;
+		        console.log(userData.getCurrentActivity());
+		        console.log(54, activityNr);
 		        userData.setCurrentActivityNr(activityNr);
+		        userData.setCurrentActivity(activityFields[activityNr]);
 		        circleKnop.changeCircle(activityFields[activityNr], activityNr);
 
 		        // activity = actArr[activityNr];
@@ -57,6 +66,10 @@
 		        // changeButton();
 		    }
 		})
+
+		// timeUse.moveBar(6);
+
+		console.log(33, "end circle knop");
 
 	}
 
@@ -79,10 +92,12 @@
             //Behaviors
             'change': function (v) {
                 console.log(v);
-                userData.setActivityValue(v);
+                userData.setActivityValue(activity, v);
                 
+                console.log(97, getCurrentActivity());
+                console.log(98, getCurrentActivityNr());
                 
-                timeUse.updateCountrySelect(userData.getCurrentActivity(), userData.getCurrentActivityNr());
+                timeUse.updateCountrySelect(userData.getCurrentActivity(), userData.getCurrentActivity());
             }
         });
 	}
