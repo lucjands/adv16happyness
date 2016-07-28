@@ -17,7 +17,8 @@
         $('.dial').val(min).knob({
             "min": min,
             "max": max,
-            "fgColor": "#A94442",
+            "fgColor": "#FF0000",
+            "bgColor": "#FFFFFF",
             'change': function (v) {
                 console.log(v);
                 userData.setActivityValue(v);
@@ -29,12 +30,10 @@
 
 		//button needs to bee specified
 		$('.circleButton').click(function () {
-		    console.log('reload');
 		    direction = $(this).attr('id');
 		    console.log(direction);
 		    
 		    if(direction === 'left' && activityNr != 0) {
-		        console.log("Inside function");
 		        activityNr--;
 		        userData.setCurrentActivityNr(activityNr);
 		        circleKnop.changeCircle(activityFields[activityNr], activityNr);
@@ -46,7 +45,6 @@
 		        
 		        // changeButton();
 		    } else if(direction === 'right' && activityNr != (activityFields.length-1)) {
-		        console.log("Inside function");
 		        activityNr++;
 		        userData.setCurrentActivityNr(activityNr);
 		        circleKnop.changeCircle(activityFields[activityNr], activityNr);
@@ -64,6 +62,8 @@
 
 	circleKnop.changeCircle = function(activity, activityNr){
 
+		console.log(67, "changeCircle");
+
 		var min = activityMinMax[activity].min;
 		var max = activityMinMax[activity].max;
 
@@ -72,7 +72,8 @@
             //UI
             "min": min,
             "max": max,
-            "fgColor": "#A94442",
+            "fgColor": "#FF0000",
+            "bgColor": "#FFFFFF",
             "cursor": true,
 
             //Behaviors
