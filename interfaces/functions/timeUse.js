@@ -11,7 +11,7 @@
     var max;
     var scale;
 
-	timeUse.init(dataSet) {
+	timeUse.init = function(dataSet) {
 		data = dataSet;
 
 		data.forEach(function(row) {
@@ -23,12 +23,12 @@
 		max = d3.max(happyArray);
 
 		scale = d3.scale.linear()
-		.domain([min, max]);
-		.range([40, 300]);
+		.domain([min, max])
+			.range([40, 300]);
 
 	}
 
-	timeUse.draw() {
+	timeUse.draw=function() {
 
 		//bars
 		d3.select('svg')
@@ -89,13 +89,13 @@
 
 	}
 
-	timeUse.updateBar(happinessScore) {
+	timeUse.updateBar=function(happinessScore) {
 		d3.select('svg')
 		.select('.happinessbar')
 		.attr('y', scale(max)/happinessScore);
 	};
 
-	timeUse.updateCountrySelect(activity, value) {
+	timeUse.updateCountrySelect=function(activity, value) {
 		var country = compareCountries(activity, value)
 		d3.select('svg')
 		.selectAll('.bar')

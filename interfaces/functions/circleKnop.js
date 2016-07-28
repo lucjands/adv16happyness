@@ -55,11 +55,11 @@
 		        
 		        changeButton();
 		    }
-		}
+		})
 
 	}
 
-	circleKnop.changeCircle(activity, activityNr) {
+	circleKnop.changeCircle = function(activity, activityNr){
 
 		var min = activityMinMax[activity].min;
 		var max = activityMinMax[activity].max;
