@@ -56,8 +56,7 @@
      userData.getHappinessScore = function() {
         var offset = 0;
         for(key in dataActivities) {
-            offset += compareCountries(key, activityData.indexOf(compareCountries)) {
-            }
+            offset += compareCountries(key, activityData.indexOf(compareCountries))
         }
 
         return offset;
