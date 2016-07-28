@@ -151,7 +151,24 @@
         <div class="container">
             <div class="row">
                 <h1>Play with your time</h1>
-                <div class="col-lg-4">&nbsp;</div>
+                <div class="col-lg-8">
+
+
+
+                    <h2 class="handwrite text-danger">Average happiness score</h2>
+                    <div id="barsContainer">
+                        <svg height="500" width="1000"></svg>
+                    </div>
+
+                    <script>
+                        $( document ).ready(function() {
+                            // timeUse.draw();
+                        });
+                    </script>
+
+
+
+                </div>
                 <div class="col-lg-4">
                     <div id="knopInterface">
                         <h2 id="title" class="handwrite text-danger"></h2>
@@ -165,23 +182,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">&nbsp;</div>
             </div>
             <div class="row">
-                    <div class="col-lg-4">
-                        <h2 class="handwrite">Average happiness score</h2>
-                            <div id="barsContainer">
-                                <svg height="1000" width="1000"></svg>
-                            </div>
 
-                    <script>
-                        $( document ).ready(function() {
-                           // timeUse.draw();
-                        });
-                    </script>
-                </div>
+                <div class="col-lg-2"></div>
                 <div class="col-lg-6">
-                    <h2 class="handwrite">Average time usage in your country</h2>
+                    <h2 class="handwrite text-danger">Average time usage in your country</h2>
                     <div id="main">
                         <div id="sequence"></div>
                         <div id="chart">
@@ -191,7 +197,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-4">
                     <div id="sidebar">
                         <input type="checkbox" id="togglelegend"> Legend<br/>
                         <div id="legend"></div>
@@ -201,7 +207,16 @@
 
 
         </div>
+
+
+        <a class="btn btn-danger btn-lg" href="" style="padding: 28px 38px;" onclick="javascript:window.location.reload();">Restart <i class="fa fa-refresh" aria-hidden="true"></i></a>
+
+        <div>
+            Made with <i class="fa fa-heart" aria-hidden="true"></i> and tons of Swiss coffee by the Time fo Happiness group
+        </div>
     </section>
+
+
 
 
     <!-- Latest compiled and minified JavaScript -->
@@ -772,6 +787,7 @@
         });
 
     </script>
+
 
 
 
