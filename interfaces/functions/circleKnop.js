@@ -17,7 +17,7 @@
         $('.dial').val(min).knob({
             "min": min,
             "max": max,
-            "fgColor": "#FF0000",
+            "fgColor": "#A94442",
             'change': function (v) {
                 console.log(v);
                 userData.setActivityValue(v);
@@ -72,7 +72,7 @@
             //UI
             "min": min,
             "max": max,
-            "fgColor": "#FF0000",
+            "fgColor": "#A94442",
             "cursor": true,
 
             //Behaviors

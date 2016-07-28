@@ -4,7 +4,6 @@
 }
 
 #sidebar {
-    float: right;
     width: 100px;
 }
 
@@ -32,12 +31,12 @@
 
 #explanation {
     position: absolute;
-    top: 260px;
+    top: 160px;
     left: 305px;
     width: 140px;
     text-align: center;
     color: #666;
-    z-index: -1;
+    z-index: 100000;
 }
 
 #percentage {

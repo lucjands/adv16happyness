@@ -26,7 +26,7 @@
 
 		scale = d3.scale.linear()
 		.domain([min, max])
-			.range([40, 300]);
+			.range([40, 450]);
 
 	}
 
@@ -63,7 +63,7 @@
                     .attr('font-size', 10)
                     .attr('fill', 'white')
                         .attr('class', 'shadow')
-                    .attr('x', -295)
+                    .attr('x', -445)
                     .attr('y', function(d, i){
                         return i*25+32
                 })
