@@ -125,7 +125,7 @@
 
     timeUse.moveBar = function(index) {
         console.log(116, "try to use moveBar");
-        current = sorted[index]
+        current = sorted[index];
         bar.transition()
             .duration(1000)
             .attr('y', function(){
