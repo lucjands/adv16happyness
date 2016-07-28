@@ -27,7 +27,7 @@
                 console.log(v);
                 userData.setActivityValue(activity, v);
 
-                timeUse.updateCountrySelect(userData.getCurrentActivity(), userData.getCurrentActivityNr());
+                // timeUse.updateCountrySelect(userData.getCurrentActivity(), userData.getCurrentActivityNr());
             }   
         });
 
@@ -97,7 +97,7 @@
                 console.log(97, getCurrentActivity());
                 console.log(98, getCurrentActivityNr());
                 
-                timeUse.updateCountrySelect(userData.getCurrentActivity(), userData.getCurrentActivity());
+                // timeUse.updateCountrySelect(userData.getCurrentActivity(), userData.getCurrentActivity());
             }
         });
 	}

@@ -2,6 +2,7 @@
      var userData = {};
      var dataActivities = {};
      var activities = [];
+     var happyinessScore;
      
      userData.init = function(activities, activityData) {
         console.log(7, "init userData");
@@ -19,6 +20,7 @@
         userData.activityValues = activityValues;
         userData.currentActivity = currentActivity;
         userData.currentActivityNr = currentActivityNr;
+        userData.happyinessScore = happyinessScore;
 
         dataActivities = activityData;
 
@@ -30,7 +32,10 @@
      
      userData.setActivityValue = function(activity, value) {
         console.log(32, value);
-        userData.activityValues[activity] = value; 
+
+        userData.activityValues[activity] = value;
+
+        userData.happyinessScore = $().timeToHappiness(activity, value);
      }
      
      userData.getActivityValue = function(activity) {

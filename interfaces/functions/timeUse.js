@@ -80,7 +80,7 @@
                     .data(data)
                     .enter()
                     .append('text')
-                    .attr('font-family', 'MyriadPro-Regular')
+                    .attr('font-family', 'Fira Sans')
                     .attr('font-size', 10)
                     .attr('fill', 'white')
                         .attr('class', 'shadow')
@@ -109,6 +109,11 @@
                     .transition()
                     .duration(2000)
                     .attr('y', scale(max)/2-100)
+
+
+
+
+
 
 	}
 
