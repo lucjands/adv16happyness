@@ -12,7 +12,7 @@
     var scale;
 
 	timeUse.init = function(dataSet) {
-		data = dataSet;
+		var data = dataSet;
 
 		data.forEach(function(row) {
 			happyArray.push(parseFloat(row["Happiness score"]));

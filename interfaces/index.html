@@ -33,6 +33,14 @@
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=" crossorigin="anonymous"></script>
 
+    <script src="vendor/d3-promise/es6-promise.js"></script>
+    <script src="vendor/d3-promise/d3.promise.js"></script>
+    <script src="vendor/knop/jquery.knob.min.js"></script>
+    <script src="functions/sortingDataset.js"></script>
+    <script src="functions/userData.js"></script>
+    <script src="functions/circleKnop.js"></script>
+    <script src="functions/timeUse.js"></script>
+
 
 </head>
 
@@ -155,7 +163,7 @@
 
                     <script>
                         $( document ).ready(function() {
-                            timeUse.init(dataSet);
+                            timeUse.init(Happiness.dataSet);
                             timeUse.draw();
                         });
                     </script>
@@ -681,14 +689,6 @@
 
 
     </script>
-
-    <script src="vendor/d3-promise/es6-promise.js"></script>
-    <script src="vendor/d3-promise/d3.promise.js"></script>
-    <script src="vendor/knop/jquery.knob.min.js"></script>
-    <script src="functions/sortingDataset.js"></script>
-    <script src="functions/userData.js"></script>
-    <script src="functions/circleKnop.js"></script>
-    <script src="functions/timeUse.js"></script>
 
     <script>
 
