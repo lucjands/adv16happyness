@@ -17,7 +17,8 @@
 		console.log(17, "test init");
 		//TESTTEST
 
-		$("#knopInterface #title").html(activity);
+		$("#knopInterface #title").html(activity + "(click and drag)");
+
         $('.dial').val(min).knob({
             "min": min,
             "max": max,
@@ -28,8 +29,16 @@
                 userData.setActivityValue(activity, v);
 
                 // timeUse.updateCountrySelect(userData.getCurrentActivity(), userData.getCurrentActivityNr());
-            }   
+            },
+			"format": function (value) {
+				return minutesToTime(value);
+			},
+			"draw": function () {
+				$(".dial").css("font-size", "1.5em"); 
+			}
         });
+
+
 
         console.log(35, "button showen");
 
@@ -80,7 +89,8 @@
 		var min = activityMinMax[activity].min;
 		var max = activityMinMax[activity].max;
 
-		$("#title").html(activity);
+		$("#title").replaceWith('<h2 id="title" class="handwrite text-danger">' + activity + "<h2>")
+		// $("#title").html(activity);
         $('.dial').val(min).trigger('change').knob({
             //UI
             "min": min,
@@ -98,7 +108,11 @@
                 console.log(98, getCurrentActivityNr());
                 
                 // timeUse.updateCountrySelect(userData.getCurrentActivity(), userData.getCurrentActivity());
-            }
+            },
+            // "format", function (value) {
+            // 	return timeToMinutes(value);
+            // }
+
         });
 	}
 

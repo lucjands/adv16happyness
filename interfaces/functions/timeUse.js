@@ -145,7 +145,7 @@
                 .style('fill', 'steelblue')
         }
 
-        currRect = d3.select('svg')
+        currRect = d3.select('#barsContainer svg')
             .select('#myrect_' + current.index)
         
         currRect.transition()
