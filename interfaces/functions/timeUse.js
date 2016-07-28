@@ -9,7 +9,7 @@
 
     var min;
     var max;
-    var scale:
+    var scale;
 
 	timeUse.init(dataSet) {
 		data = dataSet;
