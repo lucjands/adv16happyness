@@ -17,7 +17,7 @@
 		console.log(17, "test init");
 		//TESTTEST
 
-		$("#knopInterface #title").html(activity + "(click and drag)");
+		$("#knopInterface #title").html(activity + " (click and drag)");
 
         $('.dial').val(min).knob({
             "min": min,
