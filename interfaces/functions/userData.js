@@ -49,7 +49,7 @@
      }
      
      userData.getCurrentActivityNr = function() {
-         return currenActivityNr;
+         return userData.currentActivityNr;
      }
      
 

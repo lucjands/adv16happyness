@@ -730,17 +730,19 @@
         var promisesLand = Happiness.load().then(function() {
 
           userData.init(Happiness.activityFields, Happiness.activityData);
-          // console.log()
         });
 
         var loadKnop = promisesLand.then(function() {
             // try {
-                console.log("test");
+                var param1 = userData.getCurrentActivity();
+                var param2 = userData.getCurrentActivityNr();
+                var param3 = Happiness.activityData;
+
                 circleKnop.init(
-                    userData.getCurrentActivity(),
-                    userdata.getCurrentActivityNr,
-                    Happiness.activityData
-                    );
+                    param1,
+                    param2,
+                    param3
+                );
             // } catch(e) {
                 // console.error(e.message);
             // }

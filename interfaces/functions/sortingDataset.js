@@ -33,6 +33,7 @@
     return d3.promise.csv(datasetFile).then(function(data) {
       Happiness.dataSet = data;
 
+
       var dataActivity = {};
       // Initialise a pivot table
       Happiness.activityFields.forEach(function(fldname) {
@@ -44,10 +45,8 @@
       });
 
       // Pivot
-      console.log(data);
-      console.log(typeof data);
+      // console.log(typeof data);
       data.forEach(function (row) {
-        console.log(row);
         var countryName = row.GEO;
         Happiness.activityFields.forEach(function(fldname) {
           dataActivity[fldname].data.push({
@@ -67,7 +66,7 @@
         dataActivity[fldname].max = dataActivity[fldname].data[le].minutes;
       });
 
-      console.log(dataActivity);
+      //console.log(dataActivity);
       Happiness.activityData = dataActivity;
     });
   };
