@@ -29,6 +29,7 @@
     }
      
      userData.setActivityValue = function(activity, value) {
+        console.log(32, value);
         userData.activityValues[activity] = value; 
      }
      
