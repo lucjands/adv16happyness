@@ -6,7 +6,7 @@
 
       //console.log(dataSet);
 
-      var sortedDataSet = _.sortBy(dataSet, function(item) { return timeToMinutes(item[category]) });
+      var sortedDataSet = _.sortBy(Happiness.dataSet, function(item) { return timeToMinutes(item[category]) });
 
       var myArray=[];
 
