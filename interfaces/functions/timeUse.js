@@ -13,6 +13,9 @@
     var scale;
     var sorted;
 
+    var bar;
+    var current;
+
 	timeUse.init = function(dataSet) {
         console.log(15, "dataSet initialising");
         
@@ -44,7 +47,6 @@
 	}
 
     var currRect;
-    var bar;
 
 	timeUse.draw = function() {
 
@@ -96,9 +98,9 @@
                 })
 
                 //happinessbar
-                d3.select('#barsContainer svg')
+                bar = d3.select('#barsContainer svg')
                     .append('rect')
-                    .attr('id', 'happinessbar')
+                    // .attr('id', 'happinessbar')
                     .attr('height', 2)
                     .attr('width', function(d, i){
                         return data.length*25
@@ -110,6 +112,7 @@
                     .duration(2000)
                     .attr('y', scale(max)/2-100)
 
+
 	}
 
     timeUse.change = function() {
@@ -118,11 +121,11 @@
             timeUse.moveBar(index);
             // var barIndex = 
             // timeUse.moveBar(userData.happinessScore);
-        });
+    }
 
     timeUse.moveBar = function(index) {
         console.log(116, "try to use moveBar");
-        var current = sorted[index]
+        current = sorted[index]
         bar.transition()
             .duration(1000)
             .attr('y', function(){
