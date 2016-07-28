@@ -110,12 +110,15 @@
                     .duration(2000)
                     .attr('y', scale(max)/2-100)
 
-
-
-
-
-
 	}
+
+    timeUse.change = function() {
+            console.log(117, sorted);
+            var index = sorted.indexOf(userData.happinessScore);
+            timeUse.moveBar(index);
+            // var barIndex = 
+            // timeUse.moveBar(userData.happinessScore);
+        });
 
     timeUse.moveBar = function(index) {
         console.log(116, "try to use moveBar");
@@ -141,11 +144,11 @@
                 .style('fill', 'orange')
     };
 
-	timeUse.updateBar=function(happinessScore) {
-		d3.select('#barsContainer svg')
-		.select('.happinessbar')
-		.attr('y', scale(max)/happinessScore);
-	};
+	// timeUse.updateBar=function(happinessScore) {
+	// 	d3.select('#barsContainer svg')
+	// 	.select('.happinessbar')
+	// 	.attr('y', scale(max)/happinessScore);
+	// };
 
 	timeUse.updateCountrySelect = function(activity, value) {
 
