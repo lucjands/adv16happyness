@@ -14,7 +14,7 @@
         myArray.push(timeToMinutes(item[category]));
       })
 
-      var myTime=timeToMinutes(time);
+      //var myTime=timeToMinutes(time);
 
       function closest(list, x) {
         var min,
@@ -29,9 +29,9 @@
       }
 
 
-      console.log(minutesToTime(myArray[closest(myArray, myTime)]));
+      console.log(minutesToTime(myArray[closest(myArray, time)]));
 
-      return sortedDataSet[closest(myArray, myTime)]['Happiness score'];
+      return sortedDataSet[closest(myArray, time)]['Happiness score'];
 
     }
   });
