@@ -31,7 +31,7 @@
 	timeUse.draw=function() {
 
 		//bars
-		d3.select('svg')
+		d3.select('#barsContainer svg')
                     .selectAll('rect')
                     .data(happyArray)
                     .enter()
@@ -52,7 +52,7 @@
                     .style('fill', 'steelblue')
 
         //text
-                d3.select('svg')
+                d3.select('#barsContainer svg')
                     .selectAll('text')
                     .data(data)
                     .enter()
@@ -73,7 +73,7 @@
                 })
 
         //happinessbar
-                d3.select('svg')
+                d3.select('#barsContainer svg')
                     .append('rect')
                     .attr('id', 'happinessbar')
                     .attr('height', 2)
@@ -90,14 +90,14 @@
 	}
 
 	timeUse.updateBar=function(happinessScore) {
-		d3.select('svg')
+		d3.select('#barsContainer svg')
 		.select('.happinessbar')
 		.attr('y', scale(max)/happinessScore);
 	};
 
 	timeUse.updateCountrySelect=function(activity, value) {
 		var country = compareCountries(activity, value)
-		d3.select('svg')
+		d3.select('#barsContainer svg')
 		.selectAll('.bar')
 		.data(happyArray)
 		.attr('fill', function(d, i) {
