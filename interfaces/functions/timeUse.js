@@ -12,7 +12,9 @@
     var scale;
 
 	timeUse.init = function(dataSet) {
-		var data = dataSet;
+        console.log(15, "dataSet initialising");
+        
+        data = dataSet;
 
 		data.forEach(function(row) {
 			happyArray.push(parseFloat(row["Happiness score"]));
@@ -28,7 +30,7 @@
 
 	}
 
-	timeUse.draw=function() {
+	timeUse.draw = function() {
 
 		//bars
 		d3.select('#barsContainer svg')
@@ -47,7 +49,7 @@
                         return myOffset;
                 })
                     .attr('x', function(d, i){
-                        return i*25+20
+                          return i*25+20
                 })
                     .style('fill', 'steelblue')
 
@@ -96,6 +98,9 @@
 	};
 
 	timeUse.updateCountrySelect=function(activity, value) {
+
+        console.log("ping");
+
 		var country = compareCountries(activity, value)
 		d3.select('#barsContainer svg')
 		.selectAll('.bar')
@@ -124,7 +129,7 @@
 	}
 
 	var getCountryRow = function(country) {
-		data.forEach(function row() {
+		data.forEach(function row () {
 			if(country === row.country) {
 				return data.indexOf(row);
 			}

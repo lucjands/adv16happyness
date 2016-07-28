@@ -1,8 +1,11 @@
 (function() {
      var userData = {};
      var dataActivities = {};
+     var activities = [];
+     
      userData.init = function(activities, activityData) {
         var activityValues = {};
+        activities = activities;
 
         activities.forEach(function(activity) {
             activityValues[activity] = activityData[activity].min;

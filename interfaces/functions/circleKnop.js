@@ -1,12 +1,14 @@
 (function() {
+	var activityFields = {};
 	var circleKnop = {};
 	var activityMinMax = {};
 
-	circleKnop.init = function(activity, activityNr, activityData) {
+	circleKnop.init = function(activity, activityNr, activityData, activityFlds) {
 
 		console.log("Knop closure testing");
 
 		activityMinMax = activityData;
+		activityFields = activityFlds;
 
 		var min = activityMinMax[activity].min;
 		var max = activityMinMax[activity].max;
@@ -35,25 +37,26 @@
 		        console.log("Inside function");
 		        activityNr--;
 		        userData.setCurrentActivityNr(activityNr);
+		        circleKnop.changeCircle(activityFields[activityNr], activityNr);
 		        
 
-		        activity = actArr[activityNr];
-		        console.log("activity: " + activity);
-		        console.log(actArr);
+		        // activity = actArr[activityNr];
+		        // console.log("activity: " + activity);
+		        // console.log(actArr);
 		        
-		        changeButton();
-		    } else if(direction === 'right' && activityNr != (actArr.length-1)) {
+		        // changeButton();
+		    } else if(direction === 'right' && activityNr != (activityFields.length-1)) {
 		        console.log("Inside function");
 		        activityNr++;
 		        userData.setCurrentActivityNr(activityNr);
-		        
+		        circleKnop.changeCircle(activityFields[activityNr], activityNr);
 
-		        activity = actArr[activityNr];
-		        console.log("activityNr: " + activityNr);
-		        console.log("activity: " + activity);
-		        console.log(actArr);
+		        // activity = actArr[activityNr];
+		        // console.log("activityNr: " + activityNr);
+		        // console.log("activity: " + activity);
+		        // console.log(actArr);
 		        
-		        changeButton();
+		        // changeButton();
 		    }
 		})
 
@@ -76,6 +79,7 @@
             'change': function (v) {
                 console.log(v);
                 userData.setActivityValue(v);
+                
                 
                 timeUse.updateCountrySelect(userData.getCurrentActivity(), userData.getCurrentActivityNr());
             }
