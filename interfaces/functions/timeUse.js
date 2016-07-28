@@ -50,8 +50,6 @@
 
 	timeUse.draw = function() {
 
-
-
 		//bars
 		d3.select('#barsContainer svg')
                     .selectAll('rect')
@@ -104,11 +102,12 @@
                     .attr('height', 2)
                     .attr('width', function(d, i){
                         return data.length*25
-                })                    
+                    })                    
                     .style('fill', 'orange')
                     .attr('x', 18)
                     .attr('y', scale(max)/2)
-                    .transition()
+                
+                bar.transition()
                     .duration(2000)
                     .attr('y', scale(max)/2-100)
 
@@ -116,8 +115,13 @@
 	}
 
     timeUse.change = function() {
-            console.log(117, sorted);
-            var index = sorted.indexOf(userData.happinessScore);
+            console.log(117, sorted, userData);
+            var index = -1;
+            sorted.forEach(function(d, i){
+                if(d.happyness == +userData.happinessScore){
+                    index = i
+                }
+            })
             timeUse.moveBar(index);
             // var barIndex = 
             // timeUse.moveBar(userData.happinessScore);
@@ -126,6 +130,8 @@
     timeUse.moveBar = function(index) {
         console.log(116, "try to use moveBar");
         current = sorted[index];
+        console.log(current, max)
+        
         bar.transition()
             .duration(1000)
             .attr('y', function(){
