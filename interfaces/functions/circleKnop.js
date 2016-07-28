@@ -21,7 +21,7 @@
         $('.dial').val(min).knob({
             "min": min,
             "max": max,
-            "fgColor": "#FF0000",
+            "fgColor": "#A94442",
             "bgColor": "#FFFFFF",
             'change': function (v) {
                 console.log(v);
@@ -85,7 +85,7 @@
             //UI
             "min": min,
             "max": max,
-            "fgColor": "#FF0000",
+            "fgColor": "#A94442",
             "bgColor": "#FFFFFF",
             "cursor": true,
 
