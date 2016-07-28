@@ -17,7 +17,8 @@
 		console.log(17, "test init");
 		//TESTTEST
 
-		$("#knopInterface #title").html(activity);
+		$("#knopInterface #title").html(activity + "(click and drag)");
+
         $('.dial').val(min).knob({
             "min": min,
             "max": max,
@@ -88,7 +89,8 @@
 		var min = activityMinMax[activity].min;
 		var max = activityMinMax[activity].max;
 
-		$("#title").html(activity);
+		$("#title").replaceWith('<h2 id="title" class="handwrite text-danger">' + activity + "<h2>")
+		// $("#title").html(activity);
         $('.dial').val(min).trigger('change').knob({
             //UI
             "min": min,
