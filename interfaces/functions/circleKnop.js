@@ -28,8 +28,16 @@
                 userData.setActivityValue(activity, v);
 
                 // timeUse.updateCountrySelect(userData.getCurrentActivity(), userData.getCurrentActivityNr());
-            }   
+            },
+			"format": function (value) {
+				return minutesToTime(value);
+			},
+			"draw": function () {
+				$(".dial").css("font-size", "1.5em"); 
+			}
         });
+
+
 
         console.log(35, "button showen");
 
@@ -98,7 +106,11 @@
                 console.log(98, getCurrentActivityNr());
                 
                 // timeUse.updateCountrySelect(userData.getCurrentActivity(), userData.getCurrentActivity());
-            }
+            },
+            // "format", function (value) {
+            // 	return timeToMinutes(value);
+            // }
+
         });
 	}
 
